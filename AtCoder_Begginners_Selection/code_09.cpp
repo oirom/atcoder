@@ -1,19 +1,24 @@
 #include <iostream>
+#define rep(i,n) for(int i=0;i<=(int)(n);i++)
 
 using namespace std;
 
 int main()
 {
-    int N, Y;
-    cin >> N >> Y;
+    int n, y;
+    cin >> n >> y;
 
-    if (Y%1000==0&&Y/1000>0)
-        if (0==((Y%10000)%5000)%1000)
-            cout << Y/10000 << " " << (Y%10000)/5000 << " " << ((Y%10000)%5000)/1000 << endl;
-        else
-            cout << "-1 -1 -1" << endl;
-    else
-        cout << "-1 -1 -1" << endl;
+    rep(i,n) {
+        rep(j,n-i) {
+            int k = n - j - i;
+            if (10000*i+5000*j+1000*k==y) {
+                cout << i << " " << j << " " << k << endl;
+                return 0;
+            }
+        }
+    }
+
+    cout << "-1 -1 -1" << endl;
 
     return 0;
 }
