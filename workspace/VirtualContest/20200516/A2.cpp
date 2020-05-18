@@ -13,11 +13,9 @@ int main() {
 
     ll tmp = 0;
     for (ll i=0; i<s.size(); i++) {
-        if (s[i]=='W') {
-            int j = i+1;
-            while (s[j]=='W') count_w[i] += 1, j += 1;
-            tmp += 1;
-        }
+        int j = i+1;
+        while (s[j]=='W') count_w[i] += 1, j += 1;
+        tmp += 1;
     }
 
     for (ll i=0; i<s.size(); i++) cout << count_w[i] << " ";
