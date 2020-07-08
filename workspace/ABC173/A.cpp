@@ -7,11 +7,14 @@ int main() {
     cin.tie(0);
 
     ll n; cin >> n;
-    vector<ll> a(n,0); for(ll i=0;i<n;i++) cin >> a[i];
 
-    sort(a.begin(), a.end(), greater<ll>());
+    int i;
+    for (i=1; i<=10; i++) {
+        if (1000*i - n >= 0) break;
+    }
 
-    
+    cout << 1000*i - n << endl;
+       
 
     return 0;
 }
