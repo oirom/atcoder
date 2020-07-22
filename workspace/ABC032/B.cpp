@@ -16,19 +16,22 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    // int n; cin >> n;
     string str; cin >> str;
-    reverse(str.begin(), str.end());
+    int n; cin >> n;    
 
-    int ans1 = 0, ans2 = 0;
+    if (((int)(str.size()))<n) {
+        cout << 0 << endl;
+        return 0;
+    } 
+    
+    set<string> ans;
 
-    for (int i=0; i<str.size(); i++)
+    for (int i=0; i<((int)(str.size())-n+1); i++)
     {
-        if (i%2==0) ans1 += ((int)str[i] - 48);
-        else ans2 += ((int)str[i] - 48);
+        ans.insert(str.substr(i, n));
     }
 
-    cout << ans2 << " " << ans1 << endl;
+    cout << ans.size() << endl;
 
     return 0;
 }

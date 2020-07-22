@@ -16,19 +16,11 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    // int n; cin >> n;
-    string str; cin >> str;
-    reverse(str.begin(), str.end());
+    LL n, k; cin >> n >> k;
+    
+    LL ans = (n-2) / (k-1) + 1;
 
-    int ans1 = 0, ans2 = 0;
-
-    for (int i=0; i<str.size(); i++)
-    {
-        if (i%2==0) ans1 += ((int)str[i] - 48);
-        else ans2 += ((int)str[i] - 48);
-    }
-
-    cout << ans2 << " " << ans1 << endl;
+    cout << ans << endl;
 
     return 0;
 }

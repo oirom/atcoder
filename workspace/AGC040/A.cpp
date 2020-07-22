@@ -10,25 +10,33 @@ using VLL = vector<long long>;
 using VLD = vector<long double>;
 using VPLD = vector<PLD>;
 
-const int INF = numeric_limits<int>::max();
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    // int n; cin >> n;
     string str; cin >> str;
-    reverse(str.begin(), str.end());
 
-    int ans1 = 0, ans2 = 0;
+    LL n = (LL)str.size();
+    VLL v(n+1,0);
 
-    for (int i=0; i<str.size(); i++)
-    {
-        if (i%2==0) ans1 += ((int)str[i] - 48);
-        else ans2 += ((int)str[i] - 48);
+    for (LL i=0; i<n; i++) {
+        if (str[i]=='<') {
+            v[i+1] = v[i] + 1;
+        }
     }
 
-    cout << ans2 << " " << ans1 << endl;
+    for (LL i=n-1; i>=0; i--) {
+        if (str[i]=='>') {
+            v[i] = max(v[i], v[i+1] + 1);
+        }
+    }
+    
+    LL ans = 0;
+    for (LL i=0; i<n+1; i++) {
+        ans += v[i];
+    }
+
+    cout << ans << endl;
 
     return 0;
 }
