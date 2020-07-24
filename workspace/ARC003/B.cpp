@@ -16,22 +16,20 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    int n, k;
-    cin >> n >> k;
-
-    VLD e(n+1, 0.0);
+    int n;
+    cin >> n;
+    vector<string> str(n);
     REP(i,n) {
-        LD temp;
-        cin >> temp;
-        e[i+1] = e[i] + temp*(temp+1.0)/2.0/temp;
+        cin >> str[i];
+        reverse(str[i].begin(), str[i].end());
     }
 
-    LD ans = 0.0;
-    for (int i=k; i<=n; i++) {
-        ans = max(ans, e[i]-e[i-k]);
-    }
+    sort(str.begin(), str.end());
 
-    cout << fixed << setprecision(15) << ans << endl;
+    REP(i,n) {
+        reverse(str[i].begin(), str[i].end());
+        cout << str[i] << endl;
+    }
     
     return 0;
 }

@@ -16,22 +16,17 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    int n, k;
-    cin >> n >> k;
+    LL x;
+    cin >> x;
 
-    VLD e(n+1, 0.0);
-    REP(i,n) {
-        LD temp;
-        cin >> temp;
-        e[i+1] = e[i] + temp*(temp+1.0)/2.0/temp;
+    LL ans = 0, tmp = 0;
+    while(ans<x)
+    {            
+        tmp += 1;
+        ans += tmp;
     }
 
-    LD ans = 0.0;
-    for (int i=k; i<=n; i++) {
-        ans = max(ans, e[i]-e[i-k]);
-    }
+    cout << tmp << endl;
 
-    cout << fixed << setprecision(15) << ans << endl;
-    
     return 0;
 }
