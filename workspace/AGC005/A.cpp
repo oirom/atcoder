@@ -16,32 +16,19 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    LL n; cin >> n;
+    string x;
+    cin >> x;
 
-    map<LL, LL> mp;
-    REP(i,n)
+    stack<char> st;
+
+    for (int i=0; i<x.size(); i++)
     {
-        LL tmp;
-        cin >> tmp;
-        mp[tmp] += 1;
+        if ((x[i]=='T')&&(st.empty()||st.top()=='T')) st.push(x[i]);
+        else if ((x[i]=='T')&&(st.top()=='S')) st.pop();
+        else if ((x[i]=='S')) st.push(x[i]);
     }
 
-    LL m; cin >> m;
-    VLL t(m);
-    REP(i,m)
-    {
-        LL tmp;
-        cin >> tmp;
-        if (mp[tmp]>=1) {
-            mp[tmp] -= 1;
-        } else {
-            cout << "NO" << endl;
-            return 0;
-        }
-        
-    }
-
-    cout << "YES" << endl;    
+    cout << st.size() << endl;
 
     return 0;
 }
