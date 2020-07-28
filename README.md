@@ -7,9 +7,9 @@
 ## 素数判定 : is_prime
 引数 N が素数か否かを判定し，真偽値を返します．
 ```cpp
-bool is_prime(ll N) {
+bool is_prime(long long N) {
         if (N == 1) return false;
-        for (ll i=2; i*i<=N; i++) {
+        for (int i=2; i*i<=N; i++) {
             if (N%i==0) return false;
         }
         return true;
@@ -30,9 +30,9 @@ bool is_prime(ll N) {
 ```
 
 ```cpp
-vector<pair<ll, ll>> prime_factorize(ll N) {
-    vector<pair<ll, ll>> res;
-    for (ll a=2; a*a<=N; a++) {
+vector<pair<long long, long long>> prime_factorize(long long N) {
+    vector<pair<long long, long long>> res;
+    for (int a=2; a*a<=N; a++) {
         if (N%a != 0) continue;
         ll ex = 0; // 指数
 
