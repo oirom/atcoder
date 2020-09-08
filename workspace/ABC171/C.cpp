@@ -7,27 +7,15 @@ int main() {
     cin.tie(0);
 
     ll n; cin >> n;
+    string ans = "";
 
-    vector<ll> p(15, 0);
-    ll a = n;
-    ll digit = to_string(a).length();
-
-    cout << digit << "\n";
-
-    for (ll i=0;i<digit;i++) {
-        //--n;
-        p[i] = n%26;
+    while (n) {
+        n--;
+        ans += (char)('a' + (n%26));
         n /= 26;
     }
-
-    for (ll i=0; i<digit; i++) {
-        cout << p[i] << endl;
-    }
-    
-    for (ll i=0; i<digit; i++) {
-        cout << (char)('a' + p[i]);
-    }
-    cout << "\n";
+    reverse(ans.begin(), ans.end());
+    cout << ans << endl;
 
     return 0;
 }
