@@ -18,11 +18,23 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    LL k; cin >> k;
+    LL k;
+    cin >> k;
+    VLL v(1000001,0);
 
-    if (k%2==0) {cout << "-1" << endl; return 0;}
+    v[1] = 7%k;
+    for (LL i=2; i <= k; i++) {
+        v[i] = (v[i-1] * 10 + 7) % k;
+    }
 
+    for (LL i=1; i <= k; i++) {
+        if (v[i]==0) {
+            cout << i << endl;
+            return 0;
+        }
+    }
     
+    cout << "-1" << endl;
 
     return 0;
 }
