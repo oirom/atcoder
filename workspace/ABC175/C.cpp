@@ -19,20 +19,23 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    signed long long x;
-    signed long long k, d;
+    LL x, k, d;
     cin >> x >> k >> d;
 
-    signed long long pre_x = x+1;
-    signed long long count = 0;
-
-    while (llabs(pre_x)>llabs(x)) {
-        if (x<=0) { count++; pre_x=x; x+=d; }
-        else if (x>=0) { count++; pre_x=x; x-=d;}
+    LL step = 0;
+    LL tmp = abs(x%d);
+    step = abs(x/d);
+    if (step<=k) { 
+        if (x>=0) x = tmp;
+        else x = tmp * -1;
+    } else {
+        if (x>=0) x = x - k*d;
+        else x = x + k*d;
+        step = k;
     }
-
-    cout << x << endl;
-    cout << count << endl;
+    
+    if ((k-step)%2 == 0) cout << abs(x) << endl;
+    else cout << min(abs(x+d), abs(x-d)) << endl;
 
     return 0;
 }

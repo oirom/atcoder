@@ -4,34 +4,54 @@ using namespace std;
 int dx[4] = {0, 1, 0, -1};
 int dy[4] = {1, 0, -1, 0};
 
-int main(){
+int h, w;
+vector<string> m;
 
-    int r, c, sy, sx, gy, gx;
-    cin >> r >> c >> sy >> sx >> gy >> gx;
-    sy--, sx--, gy--, gx--;
-    vector<string> v(r);
-    for (int i=0; i<r; i++) cin >> v[i];
+int bfs() {
 
-    vector<vector<int>> dist(r, vector<int>(c, -1));
-    dist[sy][sx] = 0;
+    vector<vector<int>> cost(h, vector<int>(w, -1));
     queue<pair<int, int>> que;
-    que.push(pair<int, int>(sy, sx));
 
-    while(!que.empty()) {
+    for (int i=0; i<h; i++) {
+        for (int j=0; j<w; j++) {
+            if (m[i][j]=='#') {
+                que.push(pair<int, int>(i, j));
+                cost[i][j] = 0;
+            }
+        }
+    }
+
+    while (!que.empty()) {
         auto cur = que.front();
+        que.pop();
         for (int i=0; i<4; i++) {
             int ny = cur.first + dy[i];
             int nx = cur.second + dx[i];
-            if (ny<0 || ny>=r || nx<0 || nx>=c) continue;
-            if (dist[ny][nx]==-1 && v[ny][nx]=='.') {
-                dist[ny][nx] = dist[cur.first][cur.second] + 1;
+            if (ny < 0 || ny >= h || nx < 0 || nx >= w || m[ny][nx] == '#') continue;
+            if (cost[ny][nx] == -1 && m[ny][nx] == '.') {
+                cost[ny][nx] = cost[cur.first][cur.second] + 1;
                 que.push(pair<int, int>(ny, nx));
             }
         }
-        que.pop();
     }
 
-    cout << dist[gy][gx] << endl;
+    int ans = 0;
+    for (int i=0; i<h; i++){
+        for (int j=0; j<w; j++) {
+            ans = max(ans, cost[i][j]);
+        }
+    }
+
+    return ans;
+}
+
+int main(){
+    
+    cin >> h >> w;
+    m.resize(h);
+    for (int i=0; i<h; i++) cin >> m[i];
+    
+    cout << bfs() << endl;
 
     return 0;
 }
