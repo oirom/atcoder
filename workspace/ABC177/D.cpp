@@ -38,10 +38,6 @@ struct UnionFind {
         int ry = root(y);
         return rx == ry;
     }
-
-    long long size(long long x) {
-        return -par[root(x)];
-    }
 };
 
 int main(){
@@ -57,13 +53,21 @@ int main(){
         tree.unite(num1-1, num2-1);
     }
 
-    LL ans = 0;
+    VLL v(n, -1);
 
     for (LL i=0; i<n; i++) {
-        ans = max(ans, tree.size(i));
+        LL r = tree.root(i);
+        if (v[r] == -1) v[r] = 1;
+        else v[r] += 1;
+    }
+
+    LL ans = 0;
+    for (LL i=0; i<n; i++) {
+        // cout << i+1 <<  ":" << v[i] << endl;
+        ans = max(ans, v[i]);
     }
 
     cout << ans << endl;
-    
+
 	return 0;
 }
