@@ -11,22 +11,28 @@ using VLD = vector<long double>;
 using VPLL = vector<PLL>;
 using VPLD = vector<PLD>;
 
-const int INF = numeric_limits<int>::max();
-const unsigned long long int ULLINF = numeric_limits<unsigned long long int>::max();
-
 int main() {
-
-    LL n;
+    
+    long long MOD = 1000000007;
+    long long n;
     cin >> n;
-    VLL a(n);
+    vector<long long> a(n,0);
     for (int i=0; i<n; i++) cin >> a[i];
 
-    LL ans = 0;
-    for (int i=0; i<n-1; i++) {
-        if (a[i]>a[i+1]) {
-            ans += a[i]-a[i+1];
-            a[i+1] = a[i];
-        }
+    long long sum = 0;
+    for (int i=0; i<n; i++) {
+        sum += a[i];
+        sum %= MOD;
+    }
+
+    long long ans = 0;
+    for (int i=0; i<n; i++) {
+        sum -= a[i];
+
+        if (sum<0) sum += MOD;
+
+        ans += a[i] * sum;
+        ans %= MOD;
     }
 
     cout << ans << endl;

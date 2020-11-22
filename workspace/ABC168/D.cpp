@@ -4,32 +4,43 @@ typedef long long ll;
 using namespace std;
 using Graph = vector<vector<ll>>;
 
-vector<bool> seen;
-
-void dfs(const Graph &G, int v) {
-    seen[v] = true;
-
-    for (auto next_v : G[v]) {
-        if (seen[next_v]) continue;
-        dfs(G, next_v);
-    }
-}
+const int INF = 1000000000;
+vector<int> to[100005];
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-
-    ll n, m; cin >> n >> m;
-    Graph G;
-    for (ll i=0; i<m; i++) {
-        ll a, b; cin >> a >> b;
-        G[a].push_back(b);
-        G[b].push_back(a);
+    
+    int n, m;
+    cin >> n >> m;
+    for (int i=0; i<m; i++) {
+        int a, b;
+        cin >> a >> b;
+        --a; --b;
+        to[a].push_back(b);
+        to[b].push_back(a);
     }
 
-    seen.assign(m, false);
+    queue<int> q;
+    vector<int> dist(n, INF);
+    vector<int> pre(n, -1);
+    dist[0] = 0;
+    q.push(0);
+    while(!q.empty()) {
+        int v = q.front(); q.pop();
+        for (int u: to[v]) {
+            if (dist[u] != INF) continue;
+            dist[u] = dist[v] + 1;
+            pre[u] = v;
+            q.push(u);
+        }
+    }
 
-    dfs(G, 1);    
+    cout << "Yes" << endl;
+    for (int i=0; i<n; i++) {
+        if (i == 0) continue;
+        int ans = pre[i];
+            ++ans;
+        cout << ans << endl;
+    }
 
     return 0;
 }

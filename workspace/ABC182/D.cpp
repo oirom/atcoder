@@ -18,18 +18,12 @@ int main() {
     vector<int> a(n,0);
     for (int i=0; i<n; i++) cin >> a[i];
 
-    vector<int> p = a, q(n,0);
-    q[0] = max(0, p[0]);
-    for (int i=0; i<n-1; i++) {
-        p[i+1] = p[i+1] + p[i];
-        q[i+1] = max(q[i], p[i+1]);
-    }
-
-    int ans = 0;
-    int x = 0;
+    long long ans = 0, s = 0, b = 0, max_b = 0;
     for (int i=0; i<n; i++) {
-        ans = max(ans, x+q[i]);
-        x = x + p[i];
+        b += a[i];
+        max_b = max(max_b, b);
+        ans = max(ans, s+max_b);
+        s += b;
     }
 
     cout << ans << endl;
