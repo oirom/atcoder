@@ -20,8 +20,8 @@ int main() {
     for (int i = 0; i < (1 << N); i++) {
         string str = "";
         //cout << bitset<4>(i) << ": ";
-        for (int bit = N-1; bit >= 0; bit--) {
-        //for (int bit = 0; bit < N; bit++) {
+        //for (int bit = N-1; bit >= 0; bit--) {
+        for (int bit = 0; bit < N; bit++) {
             if ((1 & (i >> bit)) == 0) {
                 str += "(";
             } else {
