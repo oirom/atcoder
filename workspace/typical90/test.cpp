@@ -5,10 +5,10 @@ using namespace std;
 int N;
 int A[1 << 18], B[1 << 18];
 
-// graph
+// Graph
 const int INF = (1 << 29);
 vector<int> G[1 << 18];
-int dist[1 << 18];
+int dist[1 << 18]; 
 
 void getdist(int start) {
     for (int i = 1; i <= N; i++) dist[i] = INF;
@@ -29,10 +29,11 @@ void getdist(int start) {
     }
 }
 
+
 int main() {
 
     cin >> N;
-    for (int i = 1; i <= N -1; i++) {
+    for (int i = 0; i < N; i++) {
         cin >> A[i] >> B[i];
         G[A[i]].push_back(B[i]);
         G[B[i]].push_back(A[i]);
@@ -53,7 +54,7 @@ int main() {
         maxn2 = max(maxn2, dist[i]);
     }
 
-    cout << maxn2 + 1 << endl;
+    cout << maxn2 << endl;
 
     return 0;
 }
