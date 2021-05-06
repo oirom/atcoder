@@ -1,60 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// input
-int N;
-int A[1 << 18], B[1 << 18];
+long long A, B;
+// dp[i][j || (d < D)][k]
+// i : 何桁目か
+// j : N未満か
+// k : ４、９は今まであったか
+long long dp[100][2][2];
 
-// Graph
-const int INF = (1 << 29);
-vector<int> G[1 << 18];
-int dist[1 << 18]; 
+long long solve(const string &s) {
 
-void getdist(int start) {
-    for (int i = 1; i <= N; i++) dist[i] = INF;
+    const int L = s.size();
 
-    queue<int> Q;
-    Q.push(start);
-    dist[start] = 0;
+    fill( ( long long * )dp, ( long long * )dp + sizeof( dp ) / sizeof( long long ), 0 );
 
-    while (!Q.empty()) {
-        int pos = Q.front();
-        Q.pop();
-        for (int to : G[pos]) {
-            if (dist[to] == INF) {
-                dist[to] = dist[pos] + 1;
-                Q.push(to);
+    // 桁数ぶん回す
+    dp[0][0][0] = 1;
+    for (int i = 0; i < s.size(); i++) {
+        const int D = s[i] - '0';
+        for (int j = 0; j < 2; j++) {
+            for (int k = 0; k < 2; k++) {
+                for (int d = 0; d <= (j ? 9 : D); d++){
+                    dp[i + 1][j || (d<D)][k || d==4 || d==9] += dp[i][j][k];
+                }
             }
         }
-    }
+    } 
+    return dp[L][0][1] + dp[L][1][1];
 }
-
 
 int main() {
 
-    cin >> N;
-    for (int i = 0; i < N; i++) {
-        cin >> A[i] >> B[i];
-        G[A[i]].push_back(B[i]);
-        G[B[i]].push_back(A[i]);
-    }
+    cin >> A >> B;
+    
+    //memset(dp, 0, sizeof(dp));
 
-    getdist(1);
-    int maxn1 = -1, maxid1 = -1;
-    for (int i = 1; i <= N; i++) {
-        if (maxn1 < dist[i]) {
-            maxn1 = dist[i];
-            maxid1 = i;
-        }
-    }
-
-    getdist(maxid1);
-    int maxn2 = -1;
-    for (int i = 1; i <= N; i++) {
-        maxn2 = max(maxn2, dist[i]);
-    }
-
-    cout << maxn2 << endl;
+    cout << solve(to_string(B)) - solve(to_string(A-1)) << endl;
 
     return 0;
 }
