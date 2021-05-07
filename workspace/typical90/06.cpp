@@ -14,7 +14,7 @@ int main() {
     // 末尾から回すため上の nex[S.size()][] = S.size() が効いてくる
     for (int id=(int)S.size()-1; id>=0; id--) {
         for (int ASCII=0; ASCII<26; ASCII++) {
-            // i文字目以降にある文字(ASCII表現)のうち、もっとも左に位置するもののindex
+            // id文字目以降にある文字(ASCII表現)のうち、もっとも左に位置するもののindex
             if ((int)(S[id]-'a')==ASCII) {
                 nex[id][ASCII] = id;
             } else {
