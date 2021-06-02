@@ -1,32 +1,27 @@
 #include <bits/stdc++.h>
-
-#define rep(i,n) for(int i=0; i<n; i++)
-
-const int INF = 1001001001;
-
 using namespace std;
+#define rep(i, n) for (int i = 0; i < n; i++)
+#define LINF LLONG_MAX;
 
-signed main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+long long dp[110000];
+long long n, h[110000], k;
 
-    int n, k; cin >> n >> k;
-    vector<int> h(n); rep(i,n) cin >> h[i];
+int main() {
+  
+  cin >> n >> k;
+  rep(i, n) cin >> h[i];
 
-    vector<int> dp(n+k,INF);
+  dp[0] = 0;
 
-    dp[0] = 0;
-    dp[1] = abs(h[0]-h[1]);
-
-    for(int i=0; i<n; i++) {
-        for(int j=1; j<=k; j++) {
-
-            dp[i+j] = min(dp[i+j], dp[i]+abs(h[i]-h[i+j]));
-
-        }
+  for (int i = 1; i < n; i++) {
+    dp[i] = LINF;
+    for (int j = 1; j <= k; j++) {
+      if (i - j >= 0)
+        dp[i] = min(dp[i], dp[i - j] + abs(h[i] - h[i - j]));
     }
+  }
 
-    cout << dp[n-1] << "\n";
+  cout << dp[n - 1] << endl;
 
-    return 0;
+  return 0;
 }

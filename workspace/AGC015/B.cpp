@@ -14,12 +14,23 @@ const int INF = numeric_limits<int>::max();
 
 int main() {
 
-    LL N, A, B;
-    cin >> N >> A >> B;
-    LL rest = N - 2;
+    string S;
+    cin >> S;
 
-    LL ans = (A + B + rest * B) - (A + B + rest * A) + 1;   
-    cout << (ans <= 0 ? 0 : ans )<< endl;
+    LL total_level = (LL)S.size() - 1;
+    LL ans = 0;
+
+    for (int i = 0; i < (int)S.size(); i++) {
+        if (S[i] == 'U') {
+            ans += (total_level - i);
+            ans += 2 * i;
+        } else if (S[i] == 'D') {
+            ans += i;
+            ans += 2 * (total_level - i);
+        }
+    }
+
+    cout << ans << endl;
 
     return 0;
 }

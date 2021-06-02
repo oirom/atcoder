@@ -1,21 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-  int N;
-  cin >> N;
-  string S;
-  cin >> S;
+const int INF = 2000000000;
+int N;
+int A[300009];
+int Q;
+int B[300009];
 
-  vector<vector<long long>> vv(N, vector<long long>(7, 0));
-  for (int i = 0; i < N; i++) {
-    if (S[i] == 'a') vv[i][0]++;
-    if (S[i] == 't') vv[i][1]++;
-    if (S[i] == 'c') vv[i][2]++;
-    if (S[i] == 'o') vv[i][3]++;
-    if (S[i] == 'd') vv[i][4]++;
-    if (S[i] == 'e') vv[i][5]++;
-    if (S[i] == 'r') vv[i][6]++;
+int main() {
+  cin >> N;
+  for (int i = 1; i <= N; i++) cin >> A[i];
+  cin >> Q;
+  for (int i = 1; i <= Q; i++) cin >> B[i];
+
+  sort(A + 1, A + N + 1);
+
+  for (int i = 1; i <= Q; i++) {
+    int pos1 = lower_bound(A + 1, A + N + 1, B[i]) - A;
+    int Diff1 = INF, Diff2 = INF;
+    if (pos1 <= N) Diff1 = abs(B[i] - A[pos1]);
+    if (pos1 >= 2) Diff2 = abs(B[i] - A[pos1 - 1]);
+    cout << min(Diff1, Diff2) << endl;
   }
 
   return 0;
