@@ -3,41 +3,33 @@ using namespace std;
 typedef long int li;
 typedef long long ll;
 
+
+
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-
-    li n, m; cin >> n >> m;
-    vector<li> h(n+1,0); for (li i=1; i<=n; i++) cin >> h[i];
-    vector<li> l(n+1,0); 
-    //vector<vector<li>> table(n+1, vector<li>(n+1, 0));
-    vector<li> table(n+1, 0);
     
-    li c, d;
-    for (li i=0; i<m; i++) 
-    {
-        cin >> c >> d;
-        
-        l[c] += 1;
-        l[d] += 1;
+    int n, m;
+    cin >> n >> m;
+    vector<int> h(n+10);
+    for (int i = 1; i <= n; i++) cin >> h[i];
+    vector<int> a(m+10), b(m+10);
+    vector<vector<int>> dp(n+10);
+    for (int i = 1; i <= m; i++) {
+        cin >> a[i] >> b[i];
+        dp[a[i]].push_back(b[i]);
+        dp[b[i]].push_back(a[i]);
+    }
 
-        if (h[c] > h[d])
-        {
-            table[c] += 1;
+    int ans = 0;
+
+    for (int i = 1; i <= n; i++) {
+        bool chk = true;
+        for (auto x : dp[i]) {
+            if (h[i] <= h[x]) chk = false;
         }
-        else if (h[c] < h[d])
-        {
-            table[d] += 1;
-        }        
+        if (chk) ans++;
     }
-
-    li ans = 0;
-    for (li i=1; i<n+1; i++)
-    {
-        if (table[i] == l[i]) ans += 1;
-    }
-
-    cout << ans << "\n";
     
+    cout << ans << endl;
+
     return 0;
 }
