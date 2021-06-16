@@ -54,10 +54,18 @@ int main() {
     long long x, y;
     cin >> x >> y;
 
-    long long a1, a2, a3, a4;
+    long long ans = 3000000000;
 
-    a1 = 
+    if (x <= y) ans = min(ans, y - x);
+    x *= -1;
+    if (x <= y) ans = min(ans, y - x + 1);
+    y *= -1;
+    if (x <= y) ans = min(ans, y - x + 2);
+    x *= -1;
+    if (x <= y) ans = min(ans, y - x + 1);
+
+    //cout << (ans == 0 ? 1 : ans) << endl;
+    cout << ans << endl;
 
     return 0;
-
 }

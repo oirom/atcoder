@@ -13,11 +13,16 @@ using VPLD = vector<PLD>;
 const int INF = numeric_limits<int>::max();
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+    
+    int a, b ,c;
+    cin >> a >> b >> c;
 
-    char c; cin >> c;
-    cout << (char)((int)(c + 1)) << endl;
+    set<int> st;
+    st.insert(a);
+    st.insert(b);
+    st.insert(c);
 
-	return 0;
+    cout << ( (int)st.size() == 2 ? "Yes" : "No" ) << endl;
+    
+    return 0;
 }
