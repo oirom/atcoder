@@ -4,44 +4,40 @@ typedef long int li;
 typedef unsigned long long ll;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
 
-    ll n, k; cin >> n >> k;
+    long long n, k;
+    cin >> n >> k;
+    vector<long long> a(n+1);
+    for (int i = 1; i <= n; i++) cin >> a[i];
 
-    vector<ll> a(n+10, 0); for (ll i=1; i<=n; i++) cin >> a[i];
-    vector<ll> pre_list(n+10, 0); pre_list[1] = 1; 
-
-    ll tmp = 1, counter = 0;
-
-    if (k>n) {
-        while (pre_list[a[tmp]]!=1) pre_list[a[tmp]]=1, tmp=a[tmp], counter += 1;
-
-        if (a[tmp] == tmp){
-            cout << tmp << "\n";
-        }
-
-        else {
-            cout << counter << "\n";
-            k = k%(counter+1);
-            cout << k << "\n";
-
-            ll new_k = a[tmp] - tmp 
-            for (ll i=0; i<k; i++)
-            {
-                tmp = a[tmp];
-            }
-        }
-    }
-
-    else {
-        for (ll i=1; i<=k; i++)
-        {
-            tmp = a[tmp];
-        }
-    }
+    long long i = 1, cnt = 0;
     
-    cout << tmp << "\n";
+    vector<long long> c(200200, -1);
+    while ( c[i] == -1) {
+        c[i] = cnt;
+        cnt++;
+        i = a[i];
+    }
+
+
+    if (k <= cnt) {
+        long long i = 1;
+        for (int j = 0; j < k; j++) {
+            i = a[i];
+        }
+        cout << i << endl;
+        return 0;
+    }
+    /*cout << k << endl;
+    cout << cnt << endl;
+    cout << i << endl;
+    cout << c[i] << endl;*/
+    k = (k - c[i]) % (cnt - c[i]);
+    //cout << k << endl;
+
+    for (int j = 0; j < k; j++) i = a[i];
+
+    cout << i << endl;
 
     return 0;
 }
