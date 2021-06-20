@@ -1,32 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool compare_by_a(pair<int, int> a, pair<int, int> b) {
-    if(a.first != b.first){
-        return a.first < b.first;
-    }else{
-        return a.second < b.second;
-    }
-}
-
-bool compare_by_b(pair<int, int> a, pair<int, int> b) {
-    if(a.second != b.second){
-        return a.second < b.second;
-    }else{
-        return a.first < b.first;
-    }
-}
-
-template<typename T>
-void printElements(T &v)
-{
-    cout << "[ ";
-    for (const auto &item : v) {
-        cout << item << ", ";
-    }
-    cout << "\b\b ]" << endl;
-}
-
+long long TEN = 10000000000;
+string OOZ = "110";
 int main() {
     
     long long n;
@@ -34,17 +10,21 @@ int main() {
     string t;
     cin >> t;
 
-    long long cnt_zero = 0;
-    for (int i = 0; i < (int)t.size(); i++) {
-        if (t[i] == '0') cnt_zero++;
-    }
-
-    if (t == "1") cout << 2 * 10000000000 << endl;
-    else if (t == "11") cout << 10000000000 << endl;
+    if (t == "1") cout << 2 * TEN  << endl;
+    else if (t == "11") cout << TEN << endl;
     else {
-        if (t[n] == '0') cout << 10000000000 - cnt_zero + 1 << endl;
-        else cout << 10000000000 - cnt_zero << endl;
-    }
+        string s = "";
+        if (t.substr(0,1) == "0") t = "11" + t, n += 2;
+        else if (t.substr(0,2) == "10") t = "1" + t, n += 1;
+        //cout << t << endl;
+        int cnt = 0;
+        while (s.size() < t.size()) { s += "110"; cnt++; }
+        cnt--;
+        if (s.substr(0,n) == t) {
+            cout << TEN - (n+2)/3 + 1<< endl;
+        }
+        else cout << 0 << endl;
+    }  
 
     return 0;
 }
