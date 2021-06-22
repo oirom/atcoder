@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using Graph = vector<vector<long long>>;
 #define ll long long
 #define ld long double
 #define ull unsigned long long
@@ -74,33 +75,63 @@ ll nCr(ll n, ll r) {
   return num;
 }
 
-int gcd(int x, int y) {
+ll gcd(ll x, ll y) {
   if (x % y == 0)
     return y;
   else
     return gcd(y, x % y);
 }
 
-int lcm(int a, int b) { return a * b / gcd(a, b); }
+ll lcm(ll a, ll b) { return a * b / gcd(a, b); }
 
+// h行w列のマップを探索するDFS
+int h, w, x, y;
+vector<vector<char>> field;
+vector<vector<bool>> seen;
+
+void dfs(ll x, ll y) {
+  int dx[4] = {0, 1, 0, -1};  // 上下左右の移動用
+  int dy[4] = {1, 0, -1, 0};
+
+  if (x < 0 || w <= x || y < 0 || h <= y || field[y][x] == '#') return;
+  if (seen[y][x]) return;
+
+  seen[y][x] = true;
+
+  for (int i = 0; i < 4; i++) {
+    ll nx = x + dx[i];
+    ll ny = y + dy[i];
+    dfs(nx, ny);
+  }
+}
+/*
 int main() {
-  int n;
-  cin >> n;
-  vector<ll> x(n);
-  for (int i = 0; i < n; i++) cin >> x[i];
+  cin >> h >> w;
+  c.resize(h, vector<char>(w));
+  seen.resize(h, vector<bool>(w, false));
 
-  long long ans = 1000000000000000000;
-  vector<ll> tmp = Eratosthenes(50);
-  for (int bit = 0; bit < (1ll << 15); bit++) {
-    ll res = 1;
-    for (int i = 0; i < 15; i++) if (bit & (1 << i)) res *= tmp[i];
-    for (int i = 0; i < n; i++) {
-      if (gcd(res, x[i]) == 1) break;
-      if (i == n - 1) ans = min(ans, res);
+  int startx, starty, goalx, goaly;
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      cin >> c[i][j];
+      if (c[i][j] == 's') startx = j, starty = i;
+      if (c[i][j] == 'g') goalx = j, goaly = i;
     }
   }
 
-  cout << ans << endl;
+  dfs(startx, starty);
+
+  if (reached[goaly][goalx])
+    cout << "Yes" << endl;
+  else
+    cout << "No" << endl;
+
+  return 0;
+}
+*/
+
+int main() {
+
 
   return 0;
 }

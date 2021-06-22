@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
+//using Graph = vector<vector<long long>>;
+//using Graph = vector<vector<char>>;
+using Graph = vector<string>;
 #define ll long long
 #define ld long double
 #define ull unsigned long long
@@ -74,43 +77,46 @@ ll nCr(ll n, ll r) {
   return num;
 }
 
-int gcd(int x, int y) {
+ll gcd(ll x, ll y) {
   if (x % y == 0)
     return y;
   else
     return gcd(y, x % y);
 }
 
-int lcm(int a, int b) { return a * b / gcd(a, b); }
+ll lcm(ll a, ll b) { return a * b / gcd(a, b); }
 
+
+// h行w列のマップを探索するDFS
 int h, w, x, y;
-vector<vector<char>> c;
-vector<vector<bool>> reached;
+vector<vector<char>> field;
+vector<vector<int>> seen;
 
 void dfs(ll x, ll y) {
   int dx[4] = {0, 1, 0, -1};  // 上下左右の移動用
   int dy[4] = {1, 0, -1, 0};
 
-  if (x < 0 || w <= x || y < 0 || h <= y || c[y][x] == '#') return;
-  if (reached[y][x]) return;
+  if (x < 0 || w <= x || y < 0 || h <= y || field[y][x] == 'x') return;
+  if (seen[y][x] == 1) return;
 
-  reached[y][x] = true;
+  seen[y][x] = 1;
+  //count++;
 
   for (int i = 0; i < 4; i++) {
-    int nx = x + dx[i];
-    int ny = y + dy[i];
+    ll nx = x + dx[i];
+    ll ny = y + dy[i];
     dfs(nx, ny);
   }
 }
-
+/*
 int main() {
   cin >> h >> w;
   c.resize(h, vector<char>(w));
-  reached.resize(h, vector<bool>(w, false));
+  seen.resize(h, vector<bool>(w, false));
+
   int startx, starty, goalx, goaly;
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
-      // printf("(%d,%d)", i, j);
       cin >> c[i][j];
       if (c[i][j] == 's') startx = j, starty = i;
       if (c[i][j] == 'g') goalx = j, goaly = i;
@@ -123,6 +129,40 @@ int main() {
     cout << "Yes" << endl;
   else
     cout << "No" << endl;
+
+  return 0;
+}*/
+
+int main() {
+  h = 10;
+  w = 10;
+
+  field.assign(10, vector<char>(10,'0'));
+  int num_of_o = 0;
+
+  for (int i = 0; i < 10; i++) {
+    string tmp;
+    cin >> tmp;
+    for (int j = 0; j < 10; j++) {
+      if (tmp[j] == 'o') num_of_o++;
+      field[i][j] = tmp[j];
+    }
+  }
+  
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+      if (field[i][j] == 'o') continue;
+      int count = 0;
+      seen.assign(10, vector<int>(10, 0));
+      field[i][j] = 'o';
+      dfs(i, j);
+      for (auto e : seen) for (auto ee : e) if (ee == 1) count++;
+      if (count-1 == num_of_o) { cout << "Yes" << endl; return 0; }
+      field[i][j] = 'x';
+    }
+  }
+
+  cout << "No" << endl;
 
   return 0;
 }

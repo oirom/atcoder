@@ -3,9 +3,7 @@ using namespace std;
 
 long long nCr(long long n, long long r) {
   long long num = 1;
-  for(long long i = 1; i <= r; i++){
-    num = num * (n - i + 1) / i;
-  }
+  for(long long i = 1; i <= r; i++) num = num * (n - i + 1) / i;
   return num;
 }
 
