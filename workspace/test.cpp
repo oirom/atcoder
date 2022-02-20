@@ -1,8 +1,19 @@
 #include <bits/stdc++.h>
+
 using namespace std;
+using Graph = vector<vector<long long>>;
+
 #define ll long long
 #define ld long double
 #define ull unsigned long long
+
+const int INF = 1 << 29;
+const int dx[4] = {1, 0, 1, 0};
+const int dy[4] = {0, 1, 0, 1};
+const long long LLINF = 1LL << 60;
+
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
 
 struct UnionFind {
   vector<int> par;
@@ -74,43 +85,44 @@ ll nCr(ll n, ll r) {
   return num;
 }
 
-int gcd(int x, int y) {
+ll gcd(ll x, ll y) {
   if (x % y == 0)
     return y;
   else
     return gcd(y, x % y);
 }
 
-int lcm(int a, int b) { return a * b / gcd(a, b); }
+ll lcm(ll a, ll b) { return a * b / gcd(a, b); }
 
+// h行w列のマップを探索するDFS
 int h, w, x, y;
-vector<vector<char>> c;
-vector<vector<bool>> reached;
+vector<vector<char>> field;
+vector<vector<bool>> seen;
 
 void dfs(ll x, ll y) {
   int dx[4] = {0, 1, 0, -1};  // 上下左右の移動用
   int dy[4] = {1, 0, -1, 0};
 
-  if (x < 0 || w <= x || y < 0 || h <= y || c[y][x] == '#') return;
-  if (reached[y][x]) return;
+  if (x < 0 || w <= x || y < 0 || h <= y || field[y][x] == '#') return;
+  if (seen[y][x]) return;
 
-  reached[y][x] = true;
+  seen[y][x] = true;
 
   for (int i = 0; i < 4; i++) {
-    int nx = x + dx[i];
-    int ny = y + dy[i];
+    ll nx = x + dx[i];
+    ll ny = y + dy[i];
     dfs(nx, ny);
   }
 }
-
+/*
 int main() {
   cin >> h >> w;
   c.resize(h, vector<char>(w));
-  reached.resize(h, vector<bool>(w, false));
+  seen.resize(h, vector<bool>(w, false));
+
   int startx, starty, goalx, goaly;
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
-      // printf("(%d,%d)", i, j);
       cin >> c[i][j];
       if (c[i][j] == 's') startx = j, starty = i;
       if (c[i][j] == 'g') goalx = j, goaly = i;
@@ -123,6 +135,124 @@ int main() {
     cout << "Yes" << endl;
   else
     cout << "No" << endl;
+
+  return 0;
+}
+*/
+
+bool compare_by_first(pair<ll, ll> a, pair<ll, ll> b) {
+  if(a.first != b.first) {
+    return a.first < b.first; // 昇順
+    //return a.first > b.first; // 降順
+  }
+  if(a.second != b.second) {
+    return a.second < b.second;
+  } else {
+    return true;
+  }
+}
+
+bool compare_second(pair<ll, ll> a, pair<ll, ll> b) {
+  if(a.second != b.second) {
+    return a.second < b.second; // 昇順
+    //return a.second > b.second; // 降順
+  }
+  if(a.first != b.first) {
+    return a.first < b.first;
+  } else {
+    return true;
+  }
+}
+
+void warshall_floyd(int n) {
+  for (int k = 0; k < n; k++) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+      // d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+      }
+    }
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+      // if (d[i][j] < INF) ans += d[i][j];
+      }
+    }
+  }
+}
+
+/* 座標圧縮 
+int main() {
+
+  ll H, W, N;
+  vector<ll> A, B;
+  cin >> H >> W >> N;
+  for (int i=0;i<N;i++) {
+    ll a, b;
+    cin >> a >> b;
+    A.push_back(a);
+    B.push_back(b);
+  }
+
+  vector<ll> ys, xs;
+  for (int i=0;i<N;i++) {
+    ys.push_back(A[i]);
+    xs.push_back(B[i]);
+  } 
+
+  sort(ys.begin(), ys.end());
+  sort(xs.begin(), xs.end());
+
+  ys.erase(unique(ys.begin(), ys.end()), ys.end());
+  xs.erase(unique(xs.begin(), xs.end()), xs.end());
+
+  for (int i=0;i<N;i++) {
+    A[i] = lower_bound(ys.begin(), ys.end(), A[i]) - ys.begin();
+    B[i] = lower_bound(xs.begin(), xs.end(), B[i]) - xs.begin();
+  }
+
+  for (int i=0;i<N;i++) {
+    cout << A[i]+1 << " " << B[i]+1 << endl;
+  }
+
+  return 0;
+}
+*/
+
+bool IsPrime(int num)
+{
+    if (num < 2) return false;
+    else if (num == 2) return true;
+    else if (num % 2 == 0) return false; // 偶数はあらかじめ除く
+
+    double sqrtNum = sqrt(num);
+    for (int i = 3; i <= sqrtNum; i += 2)
+    {
+        if (num % i == 0)
+        {
+            // 素数ではない
+            return false;
+        }
+    }
+
+    // 素数である
+    return true;
+}
+
+int main() {
+
+  ll n, q;
+  cin >> n >> q;
+  ll x[n];
+  for (int i=0;i<n;i++) cin >> x[i];
+
+  vector<vector<ll>> tr(n);
+  for (int i=0;i<n-1:;i++) {
+    int a, b;
+    cin >> a >> b;
+    a--; b--;
+    tr[a].push_back(b);
+    tr[b].push_back(a);
+  }
+
 
   return 0;
 }

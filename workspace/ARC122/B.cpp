@@ -2,31 +2,33 @@
 using namespace std;
 
 int main() {
+
+  long long n;
+  cin >> n;
+
+  vector<long double> a(n);
+
+  for (int i=0;i<n;i++) cin >> a[i];
+
+  sort(a.begin(), a.end());
+
+  long double med = 0;
+
+  if ( n % 2 == 1 ) med = a[(n-1)/2];
+  else med = (a[(n/2)-1] + a[n/2])/2;
+
+  med /= 2.0;
+
+  long double ans = 0;
   
-  int N, K, R, S, P;
-  string T;
-  cin >> N >> K >> R >> S >> P >> T;
-
-  auto score = [&](int i) {
-    if (T[i] == 'r') return P;
-    else if (T[i] == 's') return R;
-    else return S;
-  };
-
-  long long ans = 0;
-
-  for (int k = 0; k < K; k++) {
-    bool last = false;
-    for (int i = k; i < N; i += K) {
-      // i >= K ... i < K においてはジャンケン手の連続による制限を受けないので
-      // T[i-K] == T[i] ... K個前と同じ手は出せないので
-      // last ... K個前に勝った時と同じ手は出せないので
-      if (i >= K && T[i-K] == T[i] && last) last = false;
-      else ans += score(i), last = true;
-    }
+  for (int i=0;i<n;i++) {
+    //printf("%f + %f - %f =\n", med, a[i], min(a[i], 2*med));
+    ans += ( med + a[i] - min(a[i], 2*med) );
   }
 
-  cout << ans << endl;
+  cout << fixed;
+  cout << setprecision(20) << ans / n << endl;
 
   return 0;
+
 }
