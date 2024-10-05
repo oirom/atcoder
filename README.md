@@ -12,6 +12,7 @@
 
 ```cpp
 #include <bits/stdc++.h>
+
 using namespace std;
 
 int main() {
@@ -53,6 +54,7 @@ int main() {
 
 ```cpp
 #include <bits/stdc++.h>
+
 using namespace std;
 
 int main() {
@@ -81,6 +83,63 @@ int main() {
     cout << (class_2_point[R] - class_2_point[L-1]) << endl;
   }
 
+  return 0;
+}
+```
+
+</details>
+
+## [022 - Cubic Cake（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_v)
+所要時間: 15 分  
+要復習度: ★★☆☆☆
+
+問題をちゃんと読む。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  long long A, B, C;
+  cin >> A >> B >> C;
+
+  long long gcd;
+  gcd = greatest_common_divisor(A, B);
+  gcd = greatest_common_divisor(gcd, C);
+
+  long long ans = A / gcd + B / gcd + C / gcd - 3;
+  cout << ans << endl;
+
+  return 0;
+}
+```
+
+</details>
+
+## Template
+所要時間: XX 分  
+要復習度: ☆☆☆☆☆
+
+Hello, world.
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  printf("Hello, world.\n")
   return 0;
 }
 ```

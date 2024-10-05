@@ -85,14 +85,18 @@ ll nCr(ll n, ll r) {
   return num;
 }
 
-ll gcd(ll x, ll y) {
+// 最大公約数: Greatest Common Divisor
+long long greatest_common_divisor(long long x, long long y) {
   if (x % y == 0)
     return y;
   else
     return gcd(y, x % y);
 }
 
-ll lcm(ll a, ll b) { return a * b / gcd(a, b); }
+// 最小公倍数: Least Common Multiple
+long long least_common_multiple(long long a, long long b) {
+  return a * b / greatest_common_divisor(a, b);
+}
 
 // h行w列のマップを探索するDFS
 int h, w, x, y;
@@ -218,30 +222,15 @@ int main() {
 */
 
 int main() {
-  long long N;
-  cin >> N;
-  vector<long long> class_1_point(N+1, 0), class_2_point(N+1, 0);
-  for (int i = 0; i < N; ++i) {
-    int C, P;
-    cin >> C >> P;
+  long long A, B, C;
+  cin >> A >> B >> C;
 
-    if (C == 1) {
-      class_1_point[i+1] = class_1_point[i] + P;
-      class_2_point[i+1] = class_2_point[i];
-    } else {
-      class_2_point[i+1] = class_2_point[i] + P;
-      class_1_point[i+1] = class_1_point[i];
-    }
-  }
+  long long gcd;
+  gcd = greatest_common_divisor(A, B);
+  gcd = greatest_common_divisor(gcd, C);
 
-  int Q;
-  cin >> Q;
-  for (int i = 0; i < Q; ++i) {
-    int L, R;
-    cin >> L >> R;
-    cout << (class_1_point[R] - class_1_point[L-1]) << " ";
-    cout << (class_2_point[R] - class_2_point[L-1]) << endl;
-  }
+  long long ans = A / gcd + B / gcd + C / gcd - 3;
+  cout << ans << endl;
 
   return 0;
 }
