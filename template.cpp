@@ -218,10 +218,24 @@ int main() {
 */
 
 int main() {
-  int n;
-  cin >> n;
+  int H, W;
+  cin >> H >> W;
+  vector<vector<int>> HW(H, vector<int>(W));
+  vector<int> sum_of_row(H, 0), sum_of_column(W, 0);
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      cin >> HW[i][j];
+      sum_of_row[i] += HW[i][j];
+      sum_of_column[j] += HW[i][j];
+    }
+  }
 
-  cout << "ABC" << setw(3) << setfill('0') << n << endl;
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      cout << sum_of_row[i] + sum_of_column[j] - HW[i][j] << " ";
+    }
+    cout << endl;
+  }
 
   return 0;
 }
