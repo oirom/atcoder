@@ -198,10 +198,10 @@ int main() {
 </details>
 
 ## [033 - Not Too Bright（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_ag)
-所要時間: 10 分  
-要復習度: ★☆☆☆☆
+所要時間: -- 分  
+要復習度: ★★★☆☆
 
-コーナーケース気づきにくい。問題文をよく読みましょう。
+コーナーケースに気付けず解説 AC。問題文をよく読みましょう。
 
 <details>
 <summary>
