@@ -222,20 +222,16 @@ int main() {
 */
 
 int main() {
-  int N, K;
-  cin >> N >> K;
-  vector<int> A(N), B(N);
-  for (int i = 0; i < N; i++) { cin >> A[i]; }
-  for (int i = 0; i < N; i++) { cin >> B[i]; }
-
-  vector<long long> diff(N);
-  for (int i = 0; i < N; i++) { diff[i] = abs(A[i] - B[i]); }
-
-  long long sum_of_diff = accumulate(diff.begin(), diff.end(), 0);
-  if (K < sum_of_diff || (K - sum_of_diff) % 2) {
-    cout << "No" << endl;
-  } else {
-    cout << "Yes" << endl;
+  int N;
+  cin >> N;
+  set<string> usernames;
+  for (int i = 1; i <= N; ++i) {
+    string s;
+    cin >> s;
+    if (usernames.count(s) == 0) {
+      cout << i << endl;
+      usernames.insert(s);
+    }
   }
 
   return 0;

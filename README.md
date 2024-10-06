@@ -161,6 +161,41 @@ int main() {
 
 </details>
 
+## [027 - Sign Up Requests （★2）](https://atcoder.jp/contests/typical90/tasks/typical90_aa)
+所要時間: 10 分  
+要復習度: ★☆☆☆☆
+
+set の contains は C++20 以降でなければ使えない。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  int N;
+  cin >> N;
+
+  set<string> usernames;
+  for (int i = 1; i <= N; ++i) {
+    string s;
+    cin >> s;
+    if (usernames.count(s) == 0) {
+      cout << i << endl;
+      usernames.insert(s);
+    }
+  }
+
+  return 0;
+}
+```
+
+</details>
 
 ## [000 - Template（★0）]()
 所要時間: XX 分  
