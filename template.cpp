@@ -222,15 +222,21 @@ int main() {
 */
 
 int main() {
-  long long A, B, C;
-  cin >> A >> B >> C;
+  int N, K;
+  cin >> N >> K;
+  vector<int> A(N), B(N);
+  for (int i = 0; i < N; i++) { cin >> A[i]; }
+  for (int i = 0; i < N; i++) { cin >> B[i]; }
 
-  long long gcd;
-  gcd = greatest_common_divisor(A, B);
-  gcd = greatest_common_divisor(gcd, C);
+  vector<long long> diff(N);
+  for (int i = 0; i < N; i++) { diff[i] = abs(A[i] - B[i]); }
 
-  long long ans = A / gcd + B / gcd + C / gcd - 3;
-  cout << ans << endl;
+  long long sum_of_diff = accumulate(diff.begin(), diff.end(), 0);
+  if (K < sum_of_diff || (K - sum_of_diff) % 2) {
+    cout << "No" << endl;
+  } else {
+    cout << "Yes" << endl;
+  }
 
   return 0;
 }

@@ -122,7 +122,47 @@ int main() {
 
 </details>
 
-## Template
+## [024 - Select +／- One（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_x)
+所要時間: 30 分  
+要復習度: ★★★☆☆
+
+割り算の余りを求める際は、割られる数が負の値を取り得るかどうかに注意する。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  int N, K;
+  cin >> N >> K;
+  vector<int> A(N), B(N);
+  for (int i = 0; i < N; i++) { cin >> A[i]; }
+  for (int i = 0; i < N; i++) { cin >> B[i]; }
+
+  vector<long long> diff(N);
+  for (int i = 0; i < N; i++) { diff[i] = abs(A[i] - B[i]); }
+
+  long long sum_of_diff = accumulate(diff.begin(), diff.end(), 0);
+  if (K < sum_of_diff || (K - sum_of_diff) % 2) {
+    cout << "No" << endl;
+  } else {
+    cout << "Yes" << endl;
+  }
+
+  return 0;
+}
+```
+
+</details>
+
+
+## [000 - Template（★0）]()
 所要時間: XX 分  
 要復習度: ☆☆☆☆☆
 
