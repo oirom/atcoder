@@ -288,6 +288,47 @@ int main() {
 
 </details>
 
+## [061 - Deck（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bi)
+所要時間: 15 分  
+要復習度: ★★☆☆☆
+
+リストのイテレータを進めて要素を探しているのが非効率でベストではないはずなので復習する。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  int Q;
+  cin >> Q;
+
+  list<int> l;
+  vector<int> ans;
+  for (int i = 0; i < Q; i++) {
+    int t, x;
+    cin >> t >> x;
+    if (t == 1) { l.push_front(x); }
+    if (t == 2) { l.push_back(x); }
+    if (t == 3) {
+      auto it = l.begin();
+      advance(it, x - 1);
+      ans.push_back(*it);
+    }
+  }
+
+  for (auto a : ans) cout << a << endl;
+
+  return 0;
+}
+```
+
+</details>
 
 ## [000 - Template（★0）]()
 所要時間: XX 分  
