@@ -183,56 +183,54 @@ void warshall_floyd(int n) {
   }
 }
 
-/* 座標圧縮 
-int main() {
-
-  ll H, W, N;
-  vector<ll> A, B;
-  cin >> H >> W >> N;
-  for (int i=0;i<N;i++) {
-    ll a, b;
-    cin >> a >> b;
-    A.push_back(a);
-    B.push_back(b);
-  }
-
-  vector<ll> ys, xs;
-  for (int i=0;i<N;i++) {
-    ys.push_back(A[i]);
-    xs.push_back(B[i]);
-  } 
-
-  sort(ys.begin(), ys.end());
-  sort(xs.begin(), xs.end());
-
-  ys.erase(unique(ys.begin(), ys.end()), ys.end());
-  xs.erase(unique(xs.begin(), xs.end()), xs.end());
-
-  for (int i=0;i<N;i++) {
-    A[i] = lower_bound(ys.begin(), ys.end(), A[i]) - ys.begin();
-    B[i] = lower_bound(xs.begin(), xs.end(), B[i]) - xs.begin();
-  }
-
-  for (int i=0;i<N;i++) {
-    cout << A[i]+1 << " " << B[i]+1 << endl;
-  }
-
-  return 0;
-}
-*/
-
-int main() {
-  int H, W;
-  cin >> H >> W;
-
-  int h = (H % 2 == 0) ? H / 2: H / 2 + 1;
-  int w = (W % 2 == 0) ? W / 2: W / 2 + 1;
-
-  if (H == 1 || W == 1) {
-    cout << H * W << endl;
+void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f) {
+  if (rest == 0) {
+    f(indexes);
   } else {
-    cout << h * w << endl;
+    if (s < 0) return;
+    recursive_comb(indexes, s - 1, rest, f);
+    indexes[rest - 1] = s;
+    recursive_comb(indexes, s - 1, rest - 1, f);
   }
+}
+
+/*
+  概要
+    nCkの組み合わせに対して処理を実行する
+    n: 全体の要素数
+    k: 選ぶ要素数
+    f: 処理内容
+
+  例
+    foreach_comb(3, 2, [&](int *indexes) {
+      cout << indexes[0] << " " << indexes[1] << endl;
+      // 1. 0 1
+      // 2. 0 2 
+      // 3. 1 2
+    });
+ */
+void foreach_comb(int n, int k, std::function<void(int *)> f) {
+  int indexes[k];
+  recursive_comb(indexes, n - 1, k, f);
+}
+
+int main() {
+  long long N, P, Q;
+  cin >> N >> P >> Q;
+  vector<long long> A(N);
+  for (int i = 0; i < N; i++) { cin >> A[i]; }
+
+  long long ans = 0;
+  foreach_comb(N, 5, [&](int *indexes) {
+    long long remainder = 1; 
+    for (int i = 0; i < 5; i++) {
+      remainder *= A[indexes[i]];
+      remainder %= P;
+    }
+    if (remainder == Q) { ans++; }
+  });
+
+  cout << ans << endl;
 
   return 0;
 }

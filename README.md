@@ -232,6 +232,63 @@ int main() {
 
 </details>
 
+## [055 - Select 5（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bc)
+所要時間: 20 分  
+要復習度: ★★☆☆☆
+
+解けはしたが、nCk の実装は自力ではなくネットからのコピペなのでそこを復習する必要あり。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f) {
+  if (rest == 0) {
+    f(indexes);
+  } else {
+    if (s < 0) return;
+    recursive_comb(indexes, s - 1, rest, f);
+    indexes[rest - 1] = s;
+    recursive_comb(indexes, s - 1, rest - 1, f);
+  }
+}
+
+void foreach_comb(int n, int k, std::function<void(int *)> f) {
+  int indexes[k];
+  recursive_comb(indexes, n - 1, k, f);
+}
+
+int main() {
+  long long N, P, Q;
+  cin >> N >> P >> Q;
+  vector<long long> A(N);
+  for (int i = 0; i < N; i++) { cin >> A[i]; }
+
+  long long ans = 0;
+  foreach_comb(N, 5, [&](int *indexes) {
+    long long remainder = 1; 
+    for (int i = 0; i < 5; i++) {
+      remainder *= A[indexes[i]];
+      remainder %= P;
+    }
+    if (remainder == Q) { ans++; }
+  });
+
+  cout << ans << endl;
+
+  return 0;
+}
+```
+
+</details>
+
+
 ## [000 - Template（★0）]()
 所要時間: XX 分  
 要復習度: ☆☆☆☆☆
