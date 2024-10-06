@@ -195,44 +195,74 @@ void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f)
 }
 
 /*
-  概要
-    nCkの組み合わせに対して処理を実行する
-    n: 全体の要素数
-    k: 選ぶ要素数
-    f: 処理内容
+  nCkの組み合わせに対して処理を実行する
+  n: 全体の要素数
+  k: 選ぶ要素数
+  f: 処理内容
 
   例
-    foreach_comb(3, 2, [&](int *indexes) {
-      cout << indexes[0] << " " << indexes[1] << endl;
-      // 1. 0 1
-      // 2. 0 2 
-      // 3. 1 2
-    });
+  foreach_comb(3, 2, [&](int *indexes) {
+    cout << indexes[0] << " " << indexes[1] << endl;
+    // 1. 0 1
+    // 2. 0 2 
+    // 3. 1 2
+  });
  */
 void foreach_comb(int n, int k, std::function<void(int *)> f) {
   int indexes[k];
   recursive_comb(indexes, n - 1, k, f);
 }
 
+long long base8to10(string n) {
+  long long res = 0;
+  long long base = 1;
+  for (int i = n.size() - 1; i >= 0; --i) {
+    res += (n[i] - '0') * base;
+    base *= 8;
+  }
+  return res;
+}
+
+string base10to9(long long n) {
+  string res = "";
+  while (n > 0) {
+    res += to_string((n % 9));
+    n /= 9;
+  }
+  reverse(res.begin(), res.end());
+
+  long long i = 0;
+  while (res[i] == '0') { i++; }
+  res.erase(0, i);
+
+  if (res == "") res = "0";
+  return res;
+}
+
+string eight_to_five(string n) {
+  for (int i = 0; i < (int)n.size(); ++i) {
+    if (n[i] == '8') n[i] = '5';
+  }
+  return n;
+}
+
 int main() {
-  int N, M;
-  cin >> N >> M;
-  vector<int> tmp(N, 0);
-  for (int i = 0; i < M; i++) {
-    int a, b;
-    cin >> a >> b;
-    a--;
-    b--;
-    if (a > b) tmp[a]++;
-    if (b > a) tmp[b]++;
+  string N;
+  int K;
+  cin >> N >> K;
+
+  string ans_str = N;
+  long long ans_num;
+  for (int i = 0; i < K; ++i) {
+    ans_num = base8to10(ans_str);
+    // cout << "8to10:" << base8to10(ans_str) << endl;
+    ans_str = base10to9(ans_num);
+    // cout << "10to9:" << base10to9(ans_num) << endl;
+    ans_str = eight_to_five(ans_str);
+    // cout << " 8to5:" << eight_tofive(ans_str) << endl;
   }
 
-  int ans = 0;
-  for (int i = 0; i < N; i++) {
-    if (tmp[i] == 1) ans++;
-  }
-
-  cout << ans << endl;
+  cout << ans_str << endl;
 
   return 0;
 }

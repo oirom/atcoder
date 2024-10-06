@@ -330,6 +330,78 @@ int main() {
 
 </details>
 
+## [067 - Base 8 to 9（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bo)
+所要時間: -- 分  
+要復習度: ★★★★☆
+
+解説 AC。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long base8to10(string n) {
+  long long res = 0;
+  long long base = 1;
+  for (int i = n.size() - 1; i >= 0; --i) {
+    res += (n[i] - '0') * base;
+    base *= 8;
+  }
+  return res;
+}
+
+string base10to9(long long n) {
+  string res = "";
+  while (n > 0) {
+    res += to_string((n % 9));
+    n /= 9;
+  }
+  reverse(res.begin(), res.end());
+
+  long long i = 0;
+  while (res[i] == '0') { i++; }
+  res.erase(0, i);
+
+  if (res == "") res = "0";
+  return res;
+}
+
+string eight_to_five(string n) {
+  for (int i = 0; i < (int)n.size(); ++i) {
+    if (n[i] == '8') n[i] = '5';
+  }
+  return n;
+}
+
+int main() {
+  string N;
+  int K;
+  cin >> N >> K;
+
+  string ans_str = N;
+  long long ans_num;
+  for (int i = 0; i < K; ++i) {
+    ans_num = base8to10(ans_str);
+    ans_str = base10to9(ans_num);
+    ans_str = eight_to_five(ans_str);
+  }
+
+  cout << ans_str << endl;
+
+  return 0;
+}
+
+```
+
+</details>
+
+
 ## [078 - Easy Graph Problem（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bz)
 所要時間: 15 分  
 要復習度: ★☆☆☆☆
