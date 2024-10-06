@@ -222,16 +222,16 @@ int main() {
 */
 
 int main() {
-  int N;
-  cin >> N;
-  set<string> usernames;
-  for (int i = 1; i <= N; ++i) {
-    string s;
-    cin >> s;
-    if (usernames.count(s) == 0) {
-      cout << i << endl;
-      usernames.insert(s);
-    }
+  int H, W;
+  cin >> H >> W;
+
+  int h = (H % 2 == 0) ? H / 2: H / 2 + 1;
+  int w = (W % 2 == 0) ? W / 2: W / 2 + 1;
+
+  if (H == 1 || W == 1) {
+    cout << H * W << endl;
+  } else {
+    cout << h * w << endl;
   }
 
   return 0;

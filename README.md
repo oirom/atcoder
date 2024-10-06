@@ -197,6 +197,41 @@ int main() {
 
 </details>
 
+## [033 - Not Too Bright（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_ag)
+所要時間: 10 分  
+要復習度: ★☆☆☆☆
+
+コーナーケース気づきにくい。問題文をよく読みましょう。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  int H, W;
+  cin >> H >> W;
+
+  int h = (H % 2 == 0) ? H / 2: H / 2 + 1;
+  int w = (W % 2 == 0) ? W / 2: W / 2 + 1;
+
+  if (H == 1 || W == 1) {
+    cout << H * W << endl;
+  } else {
+    cout << h * w << endl;
+  }
+
+  return 0;
+}
+```
+
+</details>
+
 ## [000 - Template（★0）]()
 所要時間: XX 分  
 要復習度: ☆☆☆☆☆
