@@ -330,6 +330,49 @@ int main() {
 
 </details>
 
+## [078 - Easy Graph Problem（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bz)
+所要時間: 15 分  
+要復習度: ★☆☆☆☆
+
+Hello, world.
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  int N, M;
+  cin >> N >> M;
+  vector<int> tmp(N, 0);
+  for (int i = 0; i < M; i++) {
+    int a, b;
+    cin >> a >> b;
+    a--;
+    b--;
+    if (a > b) tmp[a]++;
+    if (b > a) tmp[b]++;
+  }
+
+  int ans = 0;
+  for (int i = 0; i < N; i++) {
+    if (tmp[i] == 1) ans++;
+  }
+
+  cout << ans << endl;
+
+  return 0;
+}
+```
+
+</details>
+
+
 ## [000 - Template（★0）]()
 所要時間: XX 分  
 要復習度: ☆☆☆☆☆

@@ -215,24 +215,24 @@ void foreach_comb(int n, int k, std::function<void(int *)> f) {
 }
 
 int main() {
-  int Q;
-  cin >> Q;
-
-  list<int> l;
-  vector<int> ans;
-  for (int i = 0; i < Q; i++) {
-    int t, x;
-    cin >> t >> x;
-    if (t == 1) { l.push_front(x); }
-    if (t == 2) { l.push_back(x); }
-    if (t == 3) {
-      auto it = l.begin();
-      advance(it, x - 1);
-      ans.push_back(*it);
-    }
+  int N, M;
+  cin >> N >> M;
+  vector<int> tmp(N, 0);
+  for (int i = 0; i < M; i++) {
+    int a, b;
+    cin >> a >> b;
+    a--;
+    b--;
+    if (a > b) tmp[a]++;
+    if (b > a) tmp[b]++;
   }
 
-  for (auto a : ans) cout << a << endl;
+  int ans = 0;
+  for (int i = 0; i < N; i++) {
+    if (tmp[i] == 1) ans++;
+  }
+
+  cout << ans << endl;
 
   return 0;
 }
