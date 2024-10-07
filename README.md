@@ -38,7 +38,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [010 - Score Sum Queries（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_j)
@@ -86,7 +85,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [022 - Cubic Cake（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_v)
@@ -119,7 +117,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [024 - Select +／- One（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_x)
@@ -158,7 +155,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [027 - Sign Up Requests （★2）](https://atcoder.jp/contests/typical90/tasks/typical90_aa)
@@ -194,7 +190,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [033 - Not Too Bright（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_ag)
@@ -229,7 +224,78 @@ int main() {
   return 0;
 }
 ```
+</details>
 
+## [044 - Shift and Swapping（★3）](https://atcoder.jp/contests/typical90/tasks/typical90_ar)
+所要時間:  120 分  
+要復習度: ★★★★★
+
+自力 AC ではあるものの時間がかかりすぎ。操作対象の配列とは別で管理するインデックス用の配列について、Ti = 2 の操作で配列の先頭が一つずつずれることを考慮する必要があるが、頭の中でうまく整理ができずに時間がかかった。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct txy {
+  int t, x, y;
+};
+
+int main() {
+  int n, q;
+  cin >> n >> q;
+  vector<int> a(n), indicies(n);
+  for (int i = 0; i < n; i++) {
+    cin >> a[i];
+    indicies[i] = i;
+  }
+  vector<txy> txy(q);
+  for (int i = 0; i < q; i++) cin >> txy[i].t >> txy[i].x >> txy[i].y;
+
+  int left = 0;
+  vector<int> ans;
+  for (int i = 0; i < q; i++) {
+    int t = txy[i].t;
+    int x = txy[i].x;
+    int y = txy[i].y;
+    x--;
+    y--;
+
+    if (t == 1) {
+      x = left + x;
+      if (x > n - 1) x -= ((n - 1) + 1);
+      y = left + y;
+      if (y > n - 1) y -= ((n - 1) + 1);
+
+      int tmp = indicies[x];
+      indicies[x] = indicies[y];
+      indicies[y] = tmp;
+    }
+
+    if (t == 2) {
+      left--;
+      if (left < 0) left = n - 1;
+    }
+
+    if (t == 3) {
+      int idx = left + x;
+      if (idx > n - 1) idx -= ((n - 1) + 1);
+      ans.push_back(a[indicies[idx]]);
+    }
+  }
+
+  for (int i = 0; i < (int)ans.size(); i++) {
+    cout << ans[i] << endl;
+  }
+
+  return 0;
+}
+```
 </details>
 
 ## [055 - Select 5（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bc)
@@ -285,7 +351,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [061 - Deck（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bi)
@@ -327,7 +392,6 @@ int main() {
   return 0;
 }
 ```
-
 </details>
 
 ## [067 - Base 8 to 9（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bo)
@@ -396,11 +460,8 @@ int main() {
 
   return 0;
 }
-
 ```
-
 </details>
-
 
 ## [078 - Easy Graph Problem（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bz)
 所要時間: 15 分  
@@ -441,9 +502,7 @@ int main() {
   return 0;
 }
 ```
-
 </details>
-
 
 ## [000 - Template（★0）]()
 所要時間: XX 分  
@@ -466,5 +525,4 @@ int main() {
   return 0;
 }
 ```
-
 </details>

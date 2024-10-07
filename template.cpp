@@ -90,7 +90,7 @@ long long greatest_common_divisor(long long x, long long y) {
   if (x % y == 0)
     return y;
   else
-    return gcd(y, x % y);
+    return greatest_common_divisor(y, x % y);
 }
 
 // 最小公倍数: Least Common Multiple
@@ -213,56 +213,64 @@ void foreach_comb(int n, int k, std::function<void(int *)> f) {
   recursive_comb(indexes, n - 1, k, f);
 }
 
-long long base8to10(string n) {
-  long long res = 0;
-  long long base = 1;
-  for (int i = n.size() - 1; i >= 0; --i) {
-    res += (n[i] - '0') * base;
-    base *= 8;
-  }
-  return res;
-}
-
-string base10to9(long long n) {
-  string res = "";
-  while (n > 0) {
-    res += to_string((n % 9));
-    n /= 9;
-  }
-  reverse(res.begin(), res.end());
-
-  long long i = 0;
-  while (res[i] == '0') { i++; }
-  res.erase(0, i);
-
-  if (res == "") res = "0";
-  return res;
-}
-
-string eight_to_five(string n) {
-  for (int i = 0; i < (int)n.size(); ++i) {
-    if (n[i] == '8') n[i] = '5';
-  }
-  return n;
-}
+struct txy {
+  int t, x, y;
+};
 
 int main() {
-  string N;
-  int K;
-  cin >> N >> K;
+  int n, q;
+  cin >> n >> q;
+  vector<int> a(n), indicies(n);
+  for (int i = 0; i < n; i++) {
+    cin >> a[i];
+    indicies[i] = i;
+  }
+  vector<txy> txy(q);
+  for (int i = 0; i < q; i++) cin >> txy[i].t >> txy[i].x >> txy[i].y;
 
-  string ans_str = N;
-  long long ans_num;
-  for (int i = 0; i < K; ++i) {
-    ans_num = base8to10(ans_str);
-    // cout << "8to10:" << base8to10(ans_str) << endl;
-    ans_str = base10to9(ans_num);
-    // cout << "10to9:" << base10to9(ans_num) << endl;
-    ans_str = eight_to_five(ans_str);
-    // cout << " 8to5:" << eight_tofive(ans_str) << endl;
+  int left = 0;
+  vector<int> ans;
+  for (int i = 0; i < q; i++) {
+    int t = txy[i].t;
+    int x = txy[i].x;
+    int y = txy[i].y;
+    x--;
+    y--;
+
+    if (t == 1) {
+      x = left + x;
+      if (x > n - 1) x -= ((n - 1) + 1);
+      y = left + y;
+      if (y > n - 1) y -= ((n - 1) + 1);
+
+      int tmp = indicies[x];
+      indicies[x] = indicies[y];
+      indicies[y] = tmp;
+    }
+
+    if (t == 2) {
+      left--;
+      if (left < 0) left = n - 1;
+    }
+
+    if (t == 3) {
+      int idx = left + x;
+      if (idx > n - 1) idx -= ((n - 1) + 1);
+      ans.push_back(a[indicies[idx]]);
+    }
+
+    // cout << "left = " << left << ": ";
+    // for (int i = 0; i < n; i++) {
+    //   int idx = left + i;
+    //   if (idx > n - 1) idx -= ((n - 1) + 1);
+    //   cout << a[indicies[i]] << " ";
+    // }
+    // cout << endl;
   }
 
-  cout << ans_str << endl;
+  for (int i = 0; i < (int)ans.size(); i++) {
+    cout << ans[i] << endl;
+  }
 
   return 0;
 }
