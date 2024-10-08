@@ -463,6 +463,64 @@ int main() {
 ```
 </details>
 
+## [069 - Colorful Blocks 2（★3）](https://atcoder.jp/contests/typical90/tasks/typical90_bq)
+所要時間:  -- 分  
+要復習度: ★★★★★
+
+解説 AC。k × (k-1) × (k-2) × (k-2) × ... とすればよい、というところまではわかったが実装力・発想力・知識の不足で力及ばず。modpow の理解をちゃんと理解しておきましょう。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int modpow(long long base, unsigned long long exponent, int m)
+{
+  if (m == 1) { return 0; }
+
+  int result = 1;
+  base %= m;
+
+  while (exponent) {
+    if (exponent & 1) { result = (result * base) % m; }
+
+    exponent >>= 1;
+    base = (base * base) % m;
+  }
+
+  return result;
+}
+
+int main() {
+  long long n, k;
+  cin >> n >> k;
+
+  if (n == 1) {
+    cout << k << endl;
+    return 0;
+  }
+
+  if (n == 2) {
+    cout << k * (k - 1) << endl;
+    return 0;
+  }
+
+  long long ans = k * (k - 1) % 1000000007;
+  ans *= modpow(k - 2, n - 2, 1000000007);
+  ans %= 1000000007; 
+
+  cout << ans << endl;
+
+  return 0;
+}
+```
+</details>
+
 ## [078 - Easy Graph Problem（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bz)
 所要時間: 15 分  
 要復習度: ★☆☆☆☆

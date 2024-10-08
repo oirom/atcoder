@@ -118,31 +118,6 @@ void dfs(ll x, ll y) {
     dfs(nx, ny);
   }
 }
-/*
-int main() {
-  cin >> h >> w;
-  c.resize(h, vector<char>(w));
-  seen.resize(h, vector<bool>(w, false));
-
-  int startx, starty, goalx, goaly;
-  for (int i = 0; i < h; i++) {
-    for (int j = 0; j < w; j++) {
-      cin >> c[i][j];
-      if (c[i][j] == 's') startx = j, starty = i;
-      if (c[i][j] == 'g') goalx = j, goaly = i;
-    }
-  }
-
-  dfs(startx, starty);
-
-  if (reached[goaly][goalx])
-    cout << "Yes" << endl;
-  else
-    cout << "No" << endl;
-
-  return 0;
-}
-*/
 
 bool compare_by_first(pair<ll, ll> a, pair<ll, ll> b) {
   if(a.first != b.first) {
@@ -195,17 +170,17 @@ void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f)
 }
 
 /*
-  nCkの組み合わせに対して処理を実行する
+  nCkの組み合わせを列挙する
   n: 全体の要素数
   k: 選ぶ要素数
   f: 処理内容
 
-  例
+  How to use:
   foreach_comb(3, 2, [&](int *indexes) {
     cout << indexes[0] << " " << indexes[1] << endl;
-    // 1. 0 1
-    // 2. 0 2 
-    // 3. 1 2
+    // > 0 1
+    // > 0 2 
+    // > 1 2
   });
  */
 void foreach_comb(int n, int k, std::function<void(int *)> f) {
@@ -213,64 +188,42 @@ void foreach_comb(int n, int k, std::function<void(int *)> f) {
   recursive_comb(indexes, n - 1, k, f);
 }
 
-struct txy {
-  int t, x, y;
-};
+int modular_power(long long base, unsigned long long exponent, int m)
+{
+  if (m == 1) { return 0; }
+
+  int result = 1;
+  base %= m;
+
+  while (exponent) {
+    if (exponent & 1) { result = (result * base) % m; }
+
+    exponent >>= 1;
+    base = (base * base) % m;
+  }
+
+  return result;
+}
 
 int main() {
-  int n, q;
-  cin >> n >> q;
-  vector<int> a(n), indicies(n);
-  for (int i = 0; i < n; i++) {
-    cin >> a[i];
-    indicies[i] = i;
-  }
-  vector<txy> txy(q);
-  for (int i = 0; i < q; i++) cin >> txy[i].t >> txy[i].x >> txy[i].y;
+  long long n, k;
+  cin >> n >> k;
 
-  int left = 0;
-  vector<int> ans;
-  for (int i = 0; i < q; i++) {
-    int t = txy[i].t;
-    int x = txy[i].x;
-    int y = txy[i].y;
-    x--;
-    y--;
-
-    if (t == 1) {
-      x = left + x;
-      if (x > n - 1) x -= ((n - 1) + 1);
-      y = left + y;
-      if (y > n - 1) y -= ((n - 1) + 1);
-
-      int tmp = indicies[x];
-      indicies[x] = indicies[y];
-      indicies[y] = tmp;
-    }
-
-    if (t == 2) {
-      left--;
-      if (left < 0) left = n - 1;
-    }
-
-    if (t == 3) {
-      int idx = left + x;
-      if (idx > n - 1) idx -= ((n - 1) + 1);
-      ans.push_back(a[indicies[idx]]);
-    }
-
-    // cout << "left = " << left << ": ";
-    // for (int i = 0; i < n; i++) {
-    //   int idx = left + i;
-    //   if (idx > n - 1) idx -= ((n - 1) + 1);
-    //   cout << a[indicies[i]] << " ";
-    // }
-    // cout << endl;
+  if (n == 1) {
+    cout << k << endl;
+    return 0;
   }
 
-  for (int i = 0; i < (int)ans.size(); i++) {
-    cout << ans[i] << endl;
+  if (n == 2) {
+    cout << k * (k - 1) << endl;
+    return 0;
   }
+
+  long long ans = k * (k - 1) % 1000000007;
+  ans *= modular_power(k - 2, n - 2, 1000000007);
+  ans %= 1000000007; 
+
+  cout << ans << endl;
 
   return 0;
 }
