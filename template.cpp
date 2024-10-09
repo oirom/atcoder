@@ -188,18 +188,24 @@ void foreach_comb(int n, int k, std::function<void(int *)> f) {
   recursive_comb(indexes, n - 1, k, f);
 }
 
-int modular_power(long long base, unsigned long long exponent, int m)
-{
-  if (m == 1) { return 0; }
+/*
+  mod(base^exponent, d) を計算する
+  base    : 底
+  exponent: 指数
+  divisor : 除数
 
-  int result = 1;
-  base %= m;
+  How to use:
+  cout << modpow(2, 10, 1000000007) << endl;
+*/
+long long modpow(long long base, unsigned long long exponent, long long divisor) {
+  if (divisor == 1) { return 0; }
 
+  long long result = 1;
+  base %= divisor;
   while (exponent) {
-    if (exponent & 1) { result = (result * base) % m; }
-
+    if (exponent & 1) { result = (result * base) % divisor; }
     exponent >>= 1;
-    base = (base * base) % m;
+    base = (base * base) % divisor;
   }
 
   return result;
@@ -209,21 +215,31 @@ int main() {
   long long n, k;
   cin >> n >> k;
 
-  if (n == 1) {
-    cout << k << endl;
-    return 0;
+  long long cycle;
+  vector<long long> i_x(100001, -1), x_i(100001, -1);
+
+  long long x = n, i;
+  for (i = 0; i < k; ++i) {
+    if (x_i[x] != -1) {
+      cycle = i - x_i[x];
+      cout << i_x[x_i[x] + ((k - i) % cycle)] << endl;
+      return 0;
+    }
+
+    i_x[i] = x;
+    x_i[x] = i;
+
+    long long x_backup = x, y = 0, z;
+    while (x/10 > 0) {
+      y += x%10;
+      x /= 10;
+    }
+    y += x;
+    z = (x_backup + y) % 100000;
+    x = z;
   }
 
-  if (n == 2) {
-    cout << k * (k - 1) << endl;
-    return 0;
-  }
-
-  long long ans = k * (k - 1) % 1000000007;
-  ans *= modular_power(k - 2, n - 2, 1000000007);
-  ans %= 1000000007; 
-
-  cout << ans << endl;
+  cout << x << endl;
 
   return 0;
 }

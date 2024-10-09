@@ -353,6 +353,57 @@ int main() {
 ```
 </details>
 
+## [058 - Original Calculator（★4）](https://atcoder.jp/contests/typical90/tasks/typical90_bf)
+所要時間: 120 分  
+要復習度: ★★★★★
+
+時間はかかったものの自力 AC。サイクルを検知した時点で残りのループ数をサイクル長で割った余りを求めるという発想までは割とすんなり（？）進んだ。が、サイクルが始まる要素を起点にして、求めた余りの数だけ進める必要があるという点になかなか気付けなかった（ずっと index = 0 を起点に、求めた余りの数だけ進んだ場所にある要素を解としていた）。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  long long n, k;
+  cin >> n >> k;
+
+  long long cycle;
+  vector<long long> i_x(100001, -1), x_i(100001, -1);
+
+  long long x = n, i;
+  for (i = 0; i < k; ++i) {
+    if (x_i[x] != -1) {
+      cycle = i - x_i[x];
+      cout << i_x[x_i[x] + ((k - i) % cycle)] << endl;
+      return 0;
+    }
+
+    i_x[i] = x;
+    x_i[x] = i;
+
+    long long x_backup = x, y = 0, z;
+    while (x/10 > 0) {
+      y += x%10;
+      x /= 10;
+    }
+    y += x;
+    z = (x_backup + y) % 100000;
+    x = z;
+  }
+
+  cout << x << endl;
+
+  return 0;
+}
+```
+</details>
+
 ## [061 - Deck（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bi)
 所要時間: 15 分  
 要復習度: ★★☆☆☆
