@@ -445,6 +445,62 @@ int main() {
 ```
 </details>
 
+
+## [063 - Monochromatic Subgrid（★4）](https://atcoder.jp/contests/typical90/tasks/typical90_bk)
+所要時間: -- 分  
+要復習度: ★★★★★
+
+解説 AC。解説を読んだうえで実装は自力。グリッドについての制約に明らかに偏りがあったたため、bit 全探索を使うことを一瞬考えたが、実装した際の計算量が見通せずに手をつけられなかった。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+  int h, w;
+  cin >> h >> w;
+  vector<vector<int>> grid(h, vector<int>(w));
+  for (int i = 0; i < h; ++i) {
+    for (int j = 0; j < w; ++j) {
+      cin >> grid[i][j];
+    }
+  }
+
+  int ans = 0;
+  int should_appear_time = 0;
+  for (int bit = 0; bit < (1 << h); ++bit) {
+    map<int, int> count_full_appeared_time;
+    for (int j = 0; j < w; ++j) {
+      should_appear_time = 0;
+      map<int, int> count_appear_time;
+      for (int i = 0; i < h; ++i) {
+        if (bit & (1 << i)) {
+          should_appear_time++;
+          count_appear_time[grid[i][j]]++;
+        }
+      }
+      for (auto it : count_appear_time) {
+        if (it.second == should_appear_time) {
+          count_full_appeared_time[it.first]++;
+        }
+      }
+    }
+    for (auto it : count_full_appeared_time) ans = max(ans, it.second * should_appear_time);
+  }
+
+  cout << ans << endl;
+
+  return 0;
+}
+```
+</details>
+
 ## [067 - Base 8 to 9（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bo)
 所要時間: -- 分  
 要復習度: ★★★★☆

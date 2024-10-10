@@ -212,34 +212,39 @@ long long modpow(long long base, unsigned long long exponent, long long divisor)
 }
 
 int main() {
-  long long n, k;
-  cin >> n >> k;
-
-  long long cycle;
-  vector<long long> i_x(100001, -1), x_i(100001, -1);
-
-  long long x = n, i;
-  for (i = 0; i < k; ++i) {
-    if (x_i[x] != -1) {
-      cycle = i - x_i[x];
-      cout << i_x[x_i[x] + ((k - i) % cycle)] << endl;
-      return 0;
+  int h, w;
+  cin >> h >> w;
+  vector<vector<int>> grid(h, vector<int>(w));
+  for (int i = 0; i < h; ++i) {
+    for (int j = 0; j < w; ++j) {
+      cin >> grid[i][j];
     }
-
-    i_x[i] = x;
-    x_i[x] = i;
-
-    long long x_backup = x, y = 0, z;
-    while (x/10 > 0) {
-      y += x%10;
-      x /= 10;
-    }
-    y += x;
-    z = (x_backup + y) % 100000;
-    x = z;
   }
 
-  cout << x << endl;
+  int ans = 0;
+  int should_appear_time = 0;
+  for (int bit = 0; bit < (1 << h); ++bit) {
+    map<int, int> count_full_appeared_time;
+    for (int j = 0; j < w; ++j) {
+      should_appear_time = 0;
+      map<int, int> count_appear_time;
+      for (int i = 0; i < h; ++i) {
+        if (bit & (1 << i)) {
+          should_appear_time++;
+          count_appear_time[grid[i][j]]++;
+        }
+      }
+
+      for (auto it : count_appear_time) {
+        if (it.second == should_appear_time) {
+          count_full_appeared_time[it.first]++;
+        }
+      }
+    }
+    for (auto it : count_full_appeared_time) ans = max(ans, it.second * should_appear_time);
+  }
+
+  cout << ans << endl;
 
   return 0;
 }
