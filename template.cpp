@@ -182,14 +182,14 @@ void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f)
     // > 0 2 
     // > 1 2
   });
- */
+*/
 void foreach_comb(int n, int k, std::function<void(int *)> f) {
   int indexes[k];
   recursive_comb(indexes, n - 1, k, f);
 }
 
 /*
-  mod(base^exponent, d) を計算する
+  mod(base^exponent, divisor) を計算する
   base    : 底
   exponent: 指数
   divisor : 除数
@@ -211,37 +211,59 @@ long long modpow(long long base, unsigned long long exponent, long long divisor)
   return result;
 }
 
+long long ans = -1;
+
+/*
+ dfs
+*/
+void dfs(
+  long long start_y,
+  long long start_x,
+  long long current_y,
+  long long current_x,
+  long long h,
+  long long w,
+  vector<vector<char>> &G,
+  vector<vector<bool>> &seen,
+  long long dist
+  ) {
+  long long dy[4] = {1, 0, -1, 0};
+  long long dx[4] = {0, 1, 0, -1};
+
+  for (int i = 0; i < 4; i++) {
+    long long next_y = current_y + dy[i];
+    long long next_x = current_x + dx[i];
+
+    if (next_y < 0 || next_y >= h || next_x < 0 || next_x >= w || G[next_y][next_x] == '#') continue;
+
+    if (next_y == start_y && next_x == start_x && dist > 2) ans = max(ans, dist + 1);
+
+    if (seen[next_y][next_x]) continue;
+
+    seen[next_y][next_x] = true;
+    dfs(start_y, start_x, next_y, next_x, h, w, G, seen, dist + 1);
+    seen[next_y][next_x] = false;
+  }
+}
+
 int main() {
-  int h, w;
+  long long h, w;
   cin >> h >> w;
-  vector<vector<int>> grid(h, vector<int>(w));
-  for (int i = 0; i < h; ++i) {
-    for (int j = 0; j < w; ++j) {
-      cin >> grid[i][j];
+  vector<vector<char> > field(h, vector<char>(w));
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      cin >> field[i][j];
     }
   }
 
-  int ans = 0;
-  int should_appear_time = 0;
-  for (int bit = 0; bit < (1 << h); ++bit) {
-    map<int, int> count_full_appeared_time;
-    for (int j = 0; j < w; ++j) {
-      should_appear_time = 0;
-      map<int, int> count_appear_time;
-      for (int i = 0; i < h; ++i) {
-        if (bit & (1 << i)) {
-          should_appear_time++;
-          count_appear_time[grid[i][j]]++;
-        }
-      }
-
-      for (auto it : count_appear_time) {
-        if (it.second == should_appear_time) {
-          count_full_appeared_time[it.first]++;
-        }
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      vector<vector<bool>> seen(h, vector<bool>(w, false));
+      if (field[i][j] == '.') {
+        seen[i][j] = true;
+        dfs(i, j, i, j, h, w, field, seen, 0);
       }
     }
-    for (auto it : count_full_appeared_time) ans = max(ans, it.second * should_appear_time);
   }
 
   cout << ans << endl;

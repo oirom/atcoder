@@ -628,6 +628,81 @@ int main() {
 ```
 </details>
 
+## [072 - Loop Railway Plan（★4）](https://atcoder.jp/contests/typical90/tasks/typical90_bt)
+所要時間: -- 分  
+要復習度: ★★★★★
+
+解説 AC。DFS がそもそも書けなかった。まずはこの問題を空で書けるようになるまで写経して DFS に慣れる。あと DFS の計算量がパッと出てこないので一度計算して導出から覚える。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long ans = -1;
+
+void dfs(
+  long long start_y,
+  long long start_x,
+  long long current_y,
+  long long current_x,
+  long long h,
+  long long w,
+  vector<vector<char>> &G,
+  vector<vector<bool>> &seen,
+  long long dist
+  ) {
+  long long dy[4] = {1, 0, -1, 0};
+  long long dx[4] = {0, 1, 0, -1};
+
+  for (int i = 0; i < 4; i++) {
+    long long next_y = current_y + dy[i];
+    long long next_x = current_x + dx[i];
+
+    if (next_y < 0 || next_y >= h || next_x < 0 || next_x >= w || G[next_y][next_x] == '#') continue;
+
+    if (next_y == start_y && next_x == start_x && dist > 2) ans = max(ans, dist + 1);
+
+    if (seen[next_y][next_x]) continue;
+
+    seen[next_y][next_x] = true;
+    dfs(start_y, start_x, next_y, next_x, h, w, G, seen, dist + 1);
+    seen[next_y][next_x] = false;
+  }
+}
+
+int main() {
+  long long h, w;
+  cin >> h >> w;
+  vector<vector<char> > field(h, vector<char>(w));
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      cin >> field[i][j];
+    }
+  }
+
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      vector<vector<bool>> seen(h, vector<bool>(w, false));
+      if (field[i][j] == '.') {
+        seen[i][j] = true;
+        dfs(i, j, i, j, h, w, field, seen, 0);
+      }
+    }
+  }
+
+  cout << ans << endl;
+
+  return 0;
+}
+```
+</details>
+
 ## [078 - Easy Graph Problem（★2）](https://atcoder.jp/contests/typical90/tasks/typical90_bz)
 所要時間: 15 分  
 要復習度: ★☆☆☆☆
