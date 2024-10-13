@@ -61,21 +61,21 @@ vector<long long> Eratosthenes(const int N) {
   return P;
 }
 
-vector<pair<ll, ll> > prime_factorize(ll N) {
-  vector<pair<ll, ll> > res;
-  for (ll a = 2; a * a <= N; a++) {
-    if (N % a != 0) continue;
-    ll ex = 0;  // 指数
+vector<pair<long long, long long>> prime_factorize(long long n) {
+  vector<pair<long long, long long>> res;
+  for (long long a = 2; a * a <= n; a++) {
+    if (n % a != 0) continue;
+    long long ex = 0;
 
-    while (N % a == 0) {
+    while (n % a == 0) {
       ex++;
-      N /= a;
+      n /= a;
     }
 
     res.push_back({a, ex});
   }
 
-  if (N != 1) res.push_back({N, 1});
+  if (n != 1) res.push_back({n, 1});
   return res;
 }
 
@@ -119,24 +119,31 @@ void dfs(ll x, ll y) {
   }
 }
 
-bool compare_by_first(pair<ll, ll> a, pair<ll, ll> b) {
-  if(a.first != b.first) {
+/*
+  pair を要素にもつ配列のソートに使う比較関数
+
+  How to use:
+  vector<pair<ll, ll>> v = {{1, 2}, {3, 4}, {1, 3}};
+  sort(v.begin(), v.end(), compare_by_first);
+*/
+bool compare_by_first(pair<long long, long long> a, pair<long long, long long> b) {
+  if (a.first != b.first) {
     return a.first < b.first; // 昇順
     //return a.first > b.first; // 降順
   }
-  if(a.second != b.second) {
+  if (a.second != b.second) {
     return a.second < b.second;
   } else {
     return true;
   }
 }
 
-bool compare_second(pair<ll, ll> a, pair<ll, ll> b) {
-  if(a.second != b.second) {
+bool compare_by_second(pair<long long, long long> a, pair<long long, long long> b) {
+  if (a.second != b.second) {
     return a.second < b.second; // 昇順
     //return a.second > b.second; // 降順
   }
-  if(a.first != b.first) {
+  if (a.first != b.first) {
     return a.first < b.first;
   } else {
     return true;
@@ -158,7 +165,7 @@ void warshall_floyd(int n) {
   }
 }
 
-void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f) {
+void recursive_comb(long long *indexes, long long s, long long rest, std::function<void(long long *)> f) {
   if (rest == 0) {
     f(indexes);
   } else {
@@ -183,8 +190,8 @@ void recursive_comb(int *indexes, int s, int rest, std::function<void(int *)> f)
     // > 1 2
   });
 */
-void foreach_comb(int n, int k, std::function<void(int *)> f) {
-  int indexes[k];
+void foreach_comb(long long n, long long k, std::function<void(long long *)> f) {
+  long long indexes[k];
   recursive_comb(indexes, n - 1, k, f);
 }
 
@@ -211,10 +218,24 @@ long long modpow(long long base, unsigned long long exponent, long long divisor)
   return result;
 }
 
-long long ans = -1;
-
+/* dfs 用 */
+long long ans_for_dfs = -1;
 /*
- dfs
+  dfs
+  start_y: スタート地点のy座標
+  start_x: スタート地点のx座標
+  current_y: 現在地のy座標
+  current_x: 現在地のx座標
+  h: マップの縦幅
+  w: マップの横幅
+  G: マップ
+  seen: 訪れたかどうかのフラグ
+  dist: 移動距離
+
+  How to use:
+  vector<vector<bool>> seen(h, vector<bool>(w, false));
+  seen[start_y][start_x] = true;
+  dfs(start_y, start_x, current_y, current_x, h, w, G, seen, 0);
 */
 void dfs(
   long long start_y,
@@ -226,7 +247,7 @@ void dfs(
   vector<vector<char>> &G,
   vector<vector<bool>> &seen,
   long long dist
-  ) {
+) {
   long long dy[4] = {1, 0, -1, 0};
   long long dx[4] = {0, 1, 0, -1};
 
@@ -236,7 +257,7 @@ void dfs(
 
     if (next_y < 0 || next_y >= h || next_x < 0 || next_x >= w || G[next_y][next_x] == '#') continue;
 
-    if (next_y == start_y && next_x == start_x && dist > 2) ans = max(ans, dist + 1);
+    if (next_y == start_y && next_x == start_x && dist > 2) ans_for_dfs = max(ans_for_dfs, dist + 1);
 
     if (seen[next_y][next_x]) continue;
 
@@ -246,23 +267,35 @@ void dfs(
   }
 }
 
-int main() {
-  long long h, w;
-  cin >> h >> w;
-  vector<vector<char> > field(h, vector<char>(w));
-  for (int i = 0; i < h; i++) {
-    for (int j = 0; j < w; j++) {
-      cin >> field[i][j];
-    }
-  }
+/*
+  約数列挙
+*/
+vector<long long> calc_divisors(long long N) {
+  vector<long long> res;
 
-  for (int i = 0; i < h; i++) {
-    for (int j = 0; j < w; j++) {
-      vector<vector<bool>> seen(h, vector<bool>(w, false));
-      if (field[i][j] == '.') {
-        seen[i][j] = true;
-        dfs(i, j, i, j, h, w, field, seen, 0);
-      }
+  for (long long i = 1; i * i <= N; ++i) {
+    if (N % i != 0) continue;
+    res.push_back(i);
+    if (N / i != i) res.push_back(N / i);
+  }
+  sort(res.begin(), res.end());
+  return res;
+}
+
+int main() {
+  long long k;
+  cin >> k;
+
+  vector<long long> divisors = calc_divisors(k);
+
+  long long ans = 0;
+  for (int i = 0; i < (int)divisors.size(); i++) {
+    for (int j = i; j < (int)divisors.size(); j++) {
+      long long a = divisors[i];
+      long long b = divisors[j];
+      if ((k / a) < b) continue;
+      if (k % (a * b) != 0LL) continue;
+      if (b <= k / (a * b)) ans++;
     }
   }
 

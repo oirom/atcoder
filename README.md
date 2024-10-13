@@ -656,7 +656,7 @@ void dfs(
   vector<vector<char>> &G,
   vector<vector<bool>> &seen,
   long long dist
-  ) {
+) {
   long long dy[4] = {1, 0, -1, 0};
   long long dx[4] = {0, 1, 0, -1};
 
@@ -735,6 +735,58 @@ int main() {
   int ans = 0;
   for (int i = 0; i < N; i++) {
     if (tmp[i] == 1) ans++;
+  }
+
+  cout << ans << endl;
+
+  return 0;
+}
+```
+</details>
+
+## [085 - Multiplication 085（★4）](https://atcoder.jp/contests/typical90/tasks/typical90_cg)
+所要時間: -- 分  
+要復習度: ★★★★★
+
+解説 AC。最初なぜか素因数分解をしてしまっており解けず。単純な約数列挙でいいと気付けず。整数 3 つをすべて探索する必要はなく、2 つ目まで列挙すれば自ずと 3 つ目も決まるということには気付けた。`continue` 条件の `((k / a) < b>)` と `ans++` 条件の `b <= k / (a * b)` はまだ腑に落ちていないので要復習。
+
+<details>
+<summary>
+回答を表示する。
+</summary>
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<long long> calc_divisors(long long N) {
+  vector<long long> res;
+
+  for (long long i = 1; i * i <= N; ++i) {
+    if (N % i != 0) continue;
+    res.push_back(i);
+    if (N / i != i) res.push_back(N / i);
+  }
+  sort(res.begin(), res.end());
+  return res;
+}
+
+int main() {
+  long long k;
+  cin >> k;
+
+  vector<long long> divisors = calc_divisors(k);
+
+  long long ans = 0;
+  for (int i = 0; i < (int)divisors.size(); i++) {
+    for (int j = i; j < (int)divisors.size(); j++) {
+      long long a = divisors[i];
+      long long b = divisors[j];
+      if ((k / a) < b) continue;
+      if (k % (a * b) != 0LL) continue;
+      if (b <= k / (a * b)) ans++;
+    }
   }
 
   cout << ans << endl;
