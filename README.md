@@ -818,3 +818,18 @@ int main() {
 }
 ```
 </details>
+
+<br>
+
+# メモ
+```bash
+# clone ac-library
+
+# C++ プログラムを docker を使ってコンパイル。
+# ac-library をインクルードライブラリに指定。
+docker run --rm -v ./:/tmp gcc g++ /tmp/template.cpp -std=c++14 -I /tmp/ac-library  -o /tmp/out
+
+# 実行
+docker run -it --rm -v ./:/tmp gcc /tmp/out    
+```
+

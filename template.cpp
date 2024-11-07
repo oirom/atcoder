@@ -1,15 +1,12 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 
 using namespace std;
+using namespace atcoder;
+
 using Graph = vector<vector<long long> >;
 
-#define ll long long
-#define ld long double
-#define ull unsigned long long
-
 const int INF = 1 << 29;
-const int dx[4] = {1, 0, 1, 0};
-const int dy[4] = {0, 1, 0, 1};
 const long long LLINF = 1LL << 60;
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -79,9 +76,9 @@ vector<pair<long long, long long>> prime_factorize(long long n) {
   return res;
 }
 
-ll nCr(ll n, ll r) {
-  ll num = 1;
-  for (ll i = 1; i <= r; i++) num = num * (n - i + 1) / i;
+long long nCr(long long n, long long r) {
+  long long num = 1;
+  for (long long i = 1; i <= r; i++) num = num * (n - i + 1) / i;
   return num;
 }
 
@@ -103,7 +100,7 @@ int h, w, x, y;
 vector<vector<char> > field;
 vector<vector<bool> > seen;
 
-void dfs(ll x, ll y) {
+void dfs(long long x, long long y) {
   int dx[4] = {0, 1, 0, -1};  // 上下左右の移動用
   int dy[4] = {1, 0, -1, 0};
 
@@ -113,8 +110,8 @@ void dfs(ll x, ll y) {
   seen[y][x] = true;
 
   for (int i = 0; i < 4; i++) {
-    ll nx = x + dx[i];
-    ll ny = y + dy[i];
+    long long nx = x + dx[i];
+    long long ny = y + dy[i];
     dfs(nx, ny);
   }
 }
@@ -123,7 +120,7 @@ void dfs(ll x, ll y) {
   pair を要素にもつ配列のソートに使う比較関数
 
   How to use:
-  vector<pair<ll, ll>> v = {{1, 2}, {3, 4}, {1, 3}};
+  vector<pair<long long, long long>> v = {{1, 2}, {3, 4}, {1, 3}};
   sort(v.begin(), v.end(), compare_by_first);
 */
 bool compare_by_first(pair<long long, long long> a, pair<long long, long long> b) {
@@ -283,23 +280,40 @@ vector<long long> calc_divisors(long long N) {
 }
 
 int main() {
-  long long k;
-  cin >> k;
+  int N, M;
+  cin >> N >> M;
 
-  vector<long long> divisors = calc_divisors(k);
+  vector<int> L(N), R(N);
+  vector<pair<int, int>> LR(N);
+  for (int i = 0; i < N; ++i) {
+    cin >> L[i] >> R[i];
+    LR[i] = make_pair(L[i], R[i]);
+  }
 
-  long long ans = 0;
-  for (int i = 0; i < (int)divisors.size(); i++) {
-    for (int j = i; j < (int)divisors.size(); j++) {
-      long long a = divisors[i];
-      long long b = divisors[j];
-      if ((k / a) < b) continue;
-      if (k % (a * b) != 0LL) continue;
-      if (b <= k / (a * b)) ans++;
+  sort(LR.begin(), LR.end(), compare_by_first);
+  for (int i = 0; i < N; ++i) {
+    cout << LR[i].first << " " << LR[i].second << endl;;
+  }
+
+  int count = 0;
+  for (int l = 1; l <= M; ++l) {
+    for (int r = l; r <= M; ++r) {
+      bool isValid = true;
+
+      for (int i = 0; i < N; ++i) {
+        if (l <= L[i] && R[i] <= r) {
+          isValid = false;
+          break;
+        }
+      }
+
+      if (isValid) {
+        count++;
+      }
     }
   }
 
-  cout << ans << endl;
+  cout << count << endl;
 
   return 0;
 }
