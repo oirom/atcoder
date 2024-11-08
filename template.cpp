@@ -280,40 +280,8 @@ vector<long long> calc_divisors(long long N) {
 }
 
 int main() {
-  int N, M;
-  cin >> N >> M;
 
-  vector<int> L(N), R(N);
-  vector<pair<int, int>> LR(N);
-  for (int i = 0; i < N; ++i) {
-    cin >> L[i] >> R[i];
-    LR[i] = make_pair(L[i], R[i]);
-  }
-
-  sort(LR.begin(), LR.end(), compare_by_first);
-  for (int i = 0; i < N; ++i) {
-    cout << LR[i].first << " " << LR[i].second << endl;;
-  }
-
-  int count = 0;
-  for (int l = 1; l <= M; ++l) {
-    for (int r = l; r <= M; ++r) {
-      bool isValid = true;
-
-      for (int i = 0; i < N; ++i) {
-        if (l <= L[i] && R[i] <= r) {
-          isValid = false;
-          break;
-        }
-      }
-
-      if (isValid) {
-        count++;
-      }
-    }
-  }
-
-  cout << count << endl;
+  printf("`hello, world!`\n");
 
   return 0;
 }

@@ -830,6 +830,5 @@ int main() {
 docker run --rm -v ./:/tmp gcc g++ /tmp/template.cpp -std=c++14 -I /tmp/ac-library  -o /tmp/out
 
 # 実行
-docker run -it --rm -v ./:/tmp gcc /tmp/out    
+docker run -it --rm -v ./:/tmp gcc /tmp/out
 ```
-
